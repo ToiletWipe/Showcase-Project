@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class thirdPersonMovement : MonoBehaviour
+public class ThirdPersonMovement : MonoBehaviour
 {
     public CharacterController controller;
     public float speed = 6f;
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
-    public Transform cam;                  // A reference to the main camera in the scenes transform
+    public Transform cam;                  
     public Vector3 moveDir;
     public Vector3 movement;
 
@@ -21,13 +21,12 @@ public class thirdPersonMovement : MonoBehaviour
     private Vector3 gravityDirection = Vector3.down;
     private Vector3 gravityMovement;
 
-    //public Rigidbody rb;
+    
     public Animator animator; 
 
      private void Start()
         {
-            //rb = GetComponent<Rigidbody>();
-            // get the transform of the main camera
+ 
             if (Camera.main != null)
             {
                 cam = Camera.main.transform;
@@ -35,7 +34,7 @@ public class thirdPersonMovement : MonoBehaviour
             else
             {
                 Debug.LogWarning(
-                    "Warning: no main camera found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.", gameObject);
+                    "@Saif FUCKING Warning: no main goddman main camera could be found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.", gameObject);
             }
         }
 
@@ -59,7 +58,7 @@ public class thirdPersonMovement : MonoBehaviour
         gravityMovement = gravityDirection * -currentGravity * Time.deltaTime;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         CalculateGravity();
@@ -77,13 +76,13 @@ public class thirdPersonMovement : MonoBehaviour
             Vector3 moveDir = Quaternion.Euler(0f,targetAngle,0f)*Vector3.forward;
             movement = moveDir.normalized * speed * Time.deltaTime;
             controller.Move(movement);
-            animator.SetFloat("speed",controller.velocity.magnitude);// this is just for animation
+            animator.SetFloat("speed",controller.velocity.magnitude); //animations only
         }else{
-            animator.SetFloat("speed",controller.velocity.magnitude);
+            animator.SetFloat("speed",controller.velocity.magnitude); //finally no more fucking moonwalking fuck this code chatGPT saved the day
         }
         controller.Move(gravityMovement);
         
-         //rigidbody.velocity.magnitude
+         
         
     }
 

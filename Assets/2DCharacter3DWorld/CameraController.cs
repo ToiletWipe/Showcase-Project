@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
 		void Start()
 		{
 			_t = transform;
-			_oldRotation = _t.rotation;//asigna la rotacion de la camara
+			_oldRotation = _t.rotation;
 			_angle.y = angleY;
 		}
 
@@ -51,11 +51,7 @@ public class CameraController : MonoBehaviour
 				
 				ClampAngle(ref _angle);
 				
-			}/*else{
-				_angle.x += Input.GetAxis("Horizontal2")* rotationSensitivity;
-				_angle.y += Input.GetAxis("Vertical2")* rotationSensitivity;
-				ClampAngle(ref _angle);
-			}*/
+			}
 					 
 				
 		}
