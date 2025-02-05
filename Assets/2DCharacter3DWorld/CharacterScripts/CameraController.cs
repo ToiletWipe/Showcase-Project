@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class CameraController : MonoBehaviour
 {
@@ -22,23 +21,21 @@ public class CameraController : MonoBehaviour
         _t = transform;
         _oldRotation = _t.rotation;
         _angle.y = angleY;
-    }
 
-    public void ClampAngle(ref Vector3 angle)
-    {
-        if (angle.x < -180) angle.x += 360;
-        else if (angle.x > 180) angle.x -= 360;
-
-        if (angle.y < -VerticalRotLimit) angle.y = -VerticalRotLimit;
-        else if (angle.y > VerticalRotLimit) angle.y = VerticalRotLimit;
-
-        if (angle.z < -180) angle.z += 360;
-        else if (angle.z > 180) angle.z -= 360;
+        // Lock and hide the cursor at the start
+        LockCursor(true);
     }
 
     void Update()
     {
-        if (target)
+        // Toggle cursor lock state on pressing Escape
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            LockCursor(!Cursor.visible);
+        }
+
+        // Handle camera rotation only if the cursor is locked
+        if (Cursor.lockState == CursorLockMode.Locked)
         {
             _angle.x += Input.GetAxis("Mouse X") * rotationSensitivity;
 
@@ -66,6 +63,33 @@ public class CameraController : MonoBehaviour
 
             _t.position = target.position - currentRotation * Vector3.forward * distance;
             _t.LookAt(target.position, Vector3.up);
+        }
+    }
+
+    public void ClampAngle(ref Vector3 angle)
+    {
+        if (angle.x < -180) angle.x += 360;
+        else if (angle.x > 180) angle.x -= 360;
+
+        if (angle.y < -VerticalRotLimit) angle.y = -VerticalRotLimit;
+        else if (angle.y > VerticalRotLimit) angle.y = VerticalRotLimit;
+
+        if (angle.z < -180) angle.z += 360;
+        else if (angle.z > 180) angle.z -= 360;
+    }
+
+    // Method to lock/unlock the cursor
+    public void LockCursor(bool isLocked)
+    {
+        if (isLocked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 }

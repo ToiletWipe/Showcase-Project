@@ -1336,7 +1336,7 @@ Transform:
   m_GameObject: {fileID: 1141129550}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.859}
+  m_LocalPosition: {x: 0, y: 0, z: 1.034}
   m_LocalScale: {x: 0.092546, y: 0.092546, z: 0.092546}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2152,6 +2152,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!20 &1682919486 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3479137352382633959, guid: 6b8aecedf29cb764da1656ea79544074, type: 3}
+  m_PrefabInstance: {fileID: 3479137352505784980}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1696863683
 GameObject:
   m_ObjectHideFlags: 0
@@ -2647,7 +2652,7 @@ CapsuleCollider:
   m_Height: 1.9979045
   m_Direction: 1
   m_Center: {x: 0, y: 0.0008764267, z: 0.019324481}
---- !u!114 &1744575876120061543
+--- !u!114 &1744575876120061547
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2656,16 +2661,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1948349410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e11e38ec93f37c34a9c6df502779bf1d, type: 3}
+  m_Script: {fileID: 11500000, guid: cbdf5abd30966dc4cadb365c52549e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grabRange: 2
-  grabForce: 10
-  throwForce: 20
-  holdPosition: {fileID: 1141129551}
+  grabRange: 5
+  liftHeight: 1
+  moveSpeed: 10
+  throwForce: 10
   grabLayer:
     serializedVersion: 2
     m_Bits: 64
+  playerCamera: {fileID: 1682919486}
+  holdPosition: {fileID: 1141129551}
 --- !u!1001 &3479137352505784980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3149,6 +3156,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 963194228}
     - target: {fileID: 2415694177443615990, guid: 47064af0d9074144fa200600ca6e281f, type: 3}
+      propertyPath: speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415694177443615990, guid: 47064af0d9074144fa200600ca6e281f, type: 3}
       propertyPath: gravity
       value: 10
       objectReference: {fileID: 0}
@@ -3175,7 +3186,7 @@ PrefabInstance:
       addedObject: {fileID: 1744575876120061541}
     - targetCorrespondingSourceObject: {fileID: 2415694177443615988, guid: 47064af0d9074144fa200600ca6e281f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1744575876120061543}
+      addedObject: {fileID: 1744575876120061547}
   m_SourcePrefab: {fileID: 100100000, guid: 47064af0d9074144fa200600ca6e281f, type: 3}
 --- !u!1001 &8501408014551715168
 PrefabInstance:
