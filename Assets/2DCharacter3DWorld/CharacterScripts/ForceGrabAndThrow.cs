@@ -33,7 +33,7 @@ public class ForceGrabAndThrow : MonoBehaviour
         // If holding an object, move it to the hold position
         if (isHoldingObject && grabbedObject != null)
         {
-            grabbedObjectRb.velocity = (holdPosition.position - grabbedObject.transform.position) * grabForce;
+            grabbedObjectRb.linearVelocity = (holdPosition.position - grabbedObject.transform.position) * grabForce;
         }
     }
 
@@ -50,7 +50,7 @@ public class ForceGrabAndThrow : MonoBehaviour
                 grabbedObject = hit.collider.gameObject;
                 grabbedObjectRb = rb;
                 grabbedObjectRb.useGravity = false; // Disable gravity while holding
-                grabbedObjectRb.drag = 10; // Increase drag to make it easier to hold
+                grabbedObjectRb.linearDamping = 10; // Increase damping to make it easier to hold
                 isHoldingObject = true;
             }
         }
@@ -60,9 +60,9 @@ public class ForceGrabAndThrow : MonoBehaviour
     {
         if (grabbedObject != null)
         {
-            // Re-enable gravity and reset drag
+            // Re-enable gravity and reset damping
             grabbedObjectRb.useGravity = true;
-            grabbedObjectRb.drag = 1;
+            grabbedObjectRb.linearDamping = 1;
 
             // Apply throw force in the direction the player is facing
             grabbedObjectRb.AddForce(transform.forward * throwForce, ForceMode.Impulse);

@@ -34,7 +34,7 @@ public class ThirdPersonMovement : MonoBehaviour
             else
             {
                 Debug.LogWarning(
-                    "@Saif FUCKING Warning: no main goddman main camera could be found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.", gameObject);
+                    "FUCKING Warning: no main goddman main camera could be found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.", gameObject);
             }
         }
 
