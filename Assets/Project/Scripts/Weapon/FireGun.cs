@@ -29,7 +29,7 @@ namespace Project.Scripts.Weapon
 
         void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(KeyCode.F))
             {
                 FireBullet();
             }

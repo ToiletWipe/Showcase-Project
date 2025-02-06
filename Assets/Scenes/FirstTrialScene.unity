@@ -1492,7 +1492,7 @@ GameObject:
   - component: {fileID: 715717897}
   - component: {fileID: 715717896}
   m_Layer: 5
-  m_Name: Controls
+  m_Name: ControlsUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1778,10 +1778,14 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Press E to drop or pick
 
+    Left Click to force throw
+
+    Press F to
+    shoot
+
     Right click for laser beam
 
-    NO PROBLEMS
-    SO FAR
+    NO PROBLEMS SO FAR
 
 '
   m_isRightToLeft: 0
