@@ -13,11 +13,19 @@ namespace Project.Scripts.Weapon
 
         private void Awake()
         {
+            if (barrelEnd == null)
+            {
+                Debug.LogError("barrelEnd is not assigned in FireGunAlt!");
+                return;
+            }
+
             laserLine = BuildLaserLine();
         }
 
         private GameObject BuildLaserLine()
         {
+            if (barrelEnd == null) return null; // Prevent errors
+
             var lineGraphic = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             DestroyImmediate(lineGraphic.GetComponent<Collider>());
             lineGraphic.transform.localScale = new Vector3(0.01f, 1000, 0.01f);
@@ -34,6 +42,8 @@ namespace Project.Scripts.Weapon
 
         void Update()
         {
+            if (laserLine == null || barrelEnd == null) return; // Prevent errors
+
             if (Input.GetMouseButton(1))
             {
                 FireLaser();
@@ -47,6 +57,8 @@ namespace Project.Scripts.Weapon
 
         private void FireLaser()
         {
+            if (barrelEnd == null) return; // Prevent errors
+
             var allHits = Physics.RaycastAll(barrelEnd.transform.position, transform.forward)
                 .SelectMany(hit => Physics.OverlapSphere(hit.point, hitRadius))
                 .Distinct()
@@ -54,7 +66,10 @@ namespace Project.Scripts.Weapon
 
             foreach (var hit in allHits)
             {
-                hit.attachedRigidbody.AddForce(force * transform.forward);
+                if (hit.attachedRigidbody != null) // Prevent errors
+                {
+                    hit.attachedRigidbody.AddForce(force * transform.forward);
+                }
             }
         }
     }
