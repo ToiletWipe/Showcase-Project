@@ -74,7 +74,7 @@ public class Telekinesis : MonoBehaviour
         Vector3 newPosition = holdPosition.position + playerCamera.transform.right * mouseX + playerCamera.transform.up * mouseY;
 
         // Move the object smoothly to the new position
-        grabbedObjectRb.velocity = (newPosition - grabbedObject.transform.position) * moveSpeed;
+        grabbedObjectRb.linearVelocity = (newPosition - grabbedObject.transform.position) * moveSpeed;
     }
 
     void ThrowObject()
