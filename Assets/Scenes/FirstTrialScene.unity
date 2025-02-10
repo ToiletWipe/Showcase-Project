@@ -387,7 +387,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 277664375}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -405,7 +405,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 2
+  m_CollisionDetection: 0
 --- !u!65 &277664377
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -489,7 +489,7 @@ Transform:
   m_GameObject: {fileID: 277664375}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.7, y: 0.59, z: 4.54}
+  m_LocalPosition: {x: -9.24, y: 0.59, z: 1.62}
   m_LocalScale: {x: 0.61631244, y: 0.61631244, z: 0.61631244}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -890,7 +890,6 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194229}
-  - component: {fileID: 963194226}
   - component: {fileID: 1755672594}
   m_Layer: 0
   m_Name: Main Camera
@@ -899,14 +898,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &963194226
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
@@ -967,7 +958,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
-  m_LocalPosition: {x: 0, y: 1.5588281, z: -1.3155696}
+  m_LocalPosition: {x: 0, y: 1.5588281, z: 3.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1160,7 +1151,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
   m_Name: 
@@ -1357,7 +1348,7 @@ MonoBehaviour:
   grabRange: 7
   liftHeight: 2
   moveSpeed: 10
-  throwForce: 300
+  throwForce: 400
   grabLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -1766,7 +1757,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2415694177443615989, guid: 47064af0d9074144fa200600ca6e281f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.112
+      value: 4.46757
       objectReference: {fileID: 0}
     - target: {fileID: 2415694177443615989, guid: 47064af0d9074144fa200600ca6e281f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2039,9 +2030,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchor: 4
-  chunks: 20
-  density: 60
-  internalStrength: 300
+  chunks: 10
+  density: 10
+  internalStrength: 20
   insideMaterial: {fileID: 2100000, guid: 123c11b8009b3de4dbc4f21667b7e201, type: 2}
   outsideMaterial: {fileID: 2100000, guid: 3b0599fb311427942b439217ca238367, type: 2}
 --- !u!4 &8179571037384525212
