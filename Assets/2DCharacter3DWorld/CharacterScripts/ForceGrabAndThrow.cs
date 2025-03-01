@@ -10,10 +10,14 @@ public class ForceGrabAndThrow : MonoBehaviour
     public float throwForce = 20f; // Force applied to throw objects
     public Transform holdPosition; // Position where the object will be held
     public LayerMask grabLayer; // Layer mask for objects that can be grabbed
+    public Material highlightMaterial; // Material used to highlight objects
 
     private GameObject grabbedObject; // Reference to the currently grabbed object
     private Rigidbody grabbedObjectRb; // Rigidbody of the grabbed object
     private bool isHoldingObject = false; // Whether the player is currently holding an object
+
+    private GameObject lastHighlightedObject; // Last object that was highlighted
+    private Material[] originalMaterials; // Original materials of the highlighted object
 
     void Update()
     {
@@ -35,6 +39,9 @@ public class ForceGrabAndThrow : MonoBehaviour
         {
             grabbedObjectRb.linearVelocity = (holdPosition.position - grabbedObject.transform.position) * grabForce;
         }
+
+        // Highlight objects within grab range
+        HighlightObjectInRange();
     }
 
     void TryGrabObject()
@@ -50,8 +57,11 @@ public class ForceGrabAndThrow : MonoBehaviour
                 grabbedObject = hit.collider.gameObject;
                 grabbedObjectRb = rb;
                 grabbedObjectRb.useGravity = false; // Disable gravity while holding
-                grabbedObjectRb.linearDamping = 10; // Increase damping to make it easier to hold
+                grabbedObjectRb.linearDamping = 10; // Increase drag to make it easier to hold
                 isHoldingObject = true;
+
+                // Restore the original material of the previously highlighted object
+                RestoreOriginalMaterial();
             }
         }
     }
@@ -60,7 +70,7 @@ public class ForceGrabAndThrow : MonoBehaviour
     {
         if (grabbedObject != null)
         {
-            // Re-enable gravity and reset damping
+            // Re-enable gravity and reset drag
             grabbedObjectRb.useGravity = true;
             grabbedObjectRb.linearDamping = 1;
 
@@ -71,6 +81,57 @@ public class ForceGrabAndThrow : MonoBehaviour
             grabbedObject = null;
             grabbedObjectRb = null;
             isHoldingObject = false;
+        }
+    }
+
+    void HighlightObjectInRange()
+    {
+        // Raycast to detect objects within grab range
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, grabRange, grabLayer))
+        {
+            GameObject hitObject = hit.collider.gameObject;
+
+            // If the object is not already highlighted, highlight it
+            if (hitObject != lastHighlightedObject)
+            {
+                // Restore the original material of the previously highlighted object
+                RestoreOriginalMaterial();
+
+                // Store the original materials of the new object
+                Renderer renderer = hitObject.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    originalMaterials = renderer.materials;
+                    Material[] newMaterials = new Material[renderer.materials.Length];
+                    for (int i = 0; i < newMaterials.Length; i++)
+                    {
+                        newMaterials[i] = highlightMaterial;
+                    }
+                    renderer.materials = newMaterials;
+                }
+
+                // Update the last highlighted object
+                lastHighlightedObject = hitObject;
+            }
+        }
+        else
+        {
+            // If no object is in range, restore the original material of the last highlighted object
+            RestoreOriginalMaterial();
+            lastHighlightedObject = null;
+        }
+    }
+
+    void RestoreOriginalMaterial()
+    {
+        if (lastHighlightedObject != null)
+        {
+            Renderer renderer = lastHighlightedObject.GetComponent<Renderer>();
+            if (renderer != null && originalMaterials != null)
+            {
+                renderer.materials = originalMaterials;
+            }
         }
     }
 
