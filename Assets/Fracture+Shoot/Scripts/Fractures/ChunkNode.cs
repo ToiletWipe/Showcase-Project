@@ -96,7 +96,7 @@ namespace Project.Scripts.Fractures
             frozen = false;
             rb.constraints = RigidbodyConstraints.None;
             rb.useGravity = true;
-            rb.gameObject.layer = LayerMask.NameToLayer("Default");
+            rb.gameObject.layer = LayerMask.NameToLayer("Bits");
         }
 
         private void Freeze()
