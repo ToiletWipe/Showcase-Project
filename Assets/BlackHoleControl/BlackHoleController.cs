@@ -7,7 +7,7 @@ public class BlackHoleController : MonoBehaviour
     [Header("Sucking Settings")]
     public float suckRadius = 5f; // Radius to detect objects
     public LayerMask bitsLayer; // Layer for "Bits" objects
-    public float suckForce = 10f; // Force applied to suck objects
+    public float suckForce = 50f; // Force applied to suck objects
     public float minDistanceToDestroy = 0.5f; // Distance at which objects are destroyed
 
     [Header("Black Hole Settings")]
@@ -73,6 +73,9 @@ public class BlackHoleController : MonoBehaviour
             if (rb != null && !suckedObjects.Contains(rb))
             {
                 suckedObjects.Add(rb);
+
+                // Unfreeze position and rotation constraints
+                rb.constraints = RigidbodyConstraints.None;
             }
         }
 

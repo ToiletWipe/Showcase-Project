@@ -171,6 +171,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FracturesBlue (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7044620836974454877, guid: 37e86d144ab010343b16c75fec9af697, type: 3}
+      propertyPath: chunks
+      value: 200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -233,16 +237,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press E to drop or pick
+  m_text: 'Press E to force throw
 
-    Left Click to force throw
+    Press F to shoot
 
-    Press F to
-    shoot
+    Right click for laser
+    beam
 
-    Right click for laser beam
-
-    NO PROBLEMS SO FAR
+    G for Blackhole
 
 '
   m_isRightToLeft: 0
@@ -612,7 +614,7 @@ GameObject:
   - component: {fileID: 559496785}
   - component: {fileID: 559496784}
   m_Layer: 6
-  m_Name: Throwable2
+  m_Name: ThrowableInter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -778,7 +780,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!65 &643141415
@@ -1121,6 +1123,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3382626005644111179, guid: f60d208317214a447b98b3f3ae7c60b6, type: 3}
+      propertyPath: m_Interpolate
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9047847393619144300, guid: f60d208317214a447b98b3f3ae7c60b6, type: 3}
       propertyPath: m_Name
       value: Explosive2
@@ -1181,6 +1187,10 @@ PrefabInstance:
     - target: {fileID: 3857718761768880445, guid: 37e86d144ab010343b16c75fec9af697, type: 3}
       propertyPath: m_Name
       value: FracturesBlue (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7044620836974454877, guid: 37e86d144ab010343b16c75fec9af697, type: 3}
+      propertyPath: chunks
+      value: 200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1788,6 +1798,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FracturesBlue (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7044620836974454877, guid: 37e86d144ab010343b16c75fec9af697, type: 3}
+      propertyPath: chunks
+      value: 200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2007,7 +2021,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9047847393619144300, guid: f60d208317214a447b98b3f3ae7c60b6, type: 3}
       propertyPath: m_Name
-      value: Explosive
+      value: ExplosiveInter
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2620,13 +2634,13 @@ MonoBehaviour:
   bitsLayer:
     serializedVersion: 2
     m_Bits: 128
-  suckForce: 6
-  minDistanceToDestroy: 2
+  suckForce: 8
+  minDistanceToDestroy: 3
   blackHolePrefab: {fileID: 6371148191558272657, guid: 9bd82431e9f219f4da71e7787610b95c, type: 3}
   growthRate: 0.2
-  maxBlackHoleSize: 3
-  blackHoleOffset: 3
-  throwForce: 300
+  maxBlackHoleSize: 4
+  blackHoleOffset: 1.5
+  throwForce: 250
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
