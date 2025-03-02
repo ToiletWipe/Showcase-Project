@@ -244,7 +244,9 @@ MonoBehaviour:
     Right click for laser
     beam
 
-    G for Blackhole
+    G for Blackhole (Debris)
+
+    X for ChaosFreeze (Debris)
 
 '
   m_isRightToLeft: 0
@@ -896,13 +898,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 716256231}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.07273291, y: -0.0531426, z: -0.0010190415, w: 0.9959341}
-  m_LocalPosition: {x: -0.23, y: 0.54, z: 1.58}
+  m_LocalRotation: {x: -0.07207772, y: 0.06749974, z: -0.009793662, w: 0.9950642}
+  m_LocalPosition: {x: 0.81, y: 1.12, z: 0.891}
   m_LocalScale: {x: 13.170941, y: 10.981902, z: 3.790181}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 768179922}
-  m_LocalEulerAnglesHint: {x: -8.336, y: -6.133, z: 0.33}
+  m_LocalEulerAnglesHint: {x: -8.171, y: 7.882, z: -1.692}
 --- !u!1 &768179921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,13 +1417,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e11e38ec93f37c34a9c6df502779bf1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grabRange: 6
+  grabRange: 8
   grabForce: 15
   throwForce: 500
   holdPosition: {fileID: 8947824887812947468}
   grabLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
   highlightMaterial: {fileID: 2100000, guid: b2f73f98225d8854d85680538f8e9a08, type: 2}
 --- !u!1 &1442084542
 GameObject:
@@ -2127,6 +2129,7 @@ GameObject:
   - component: {fileID: 3543527993267531991}
   - component: {fileID: 3220138191575692112}
   - component: {fileID: 9210003102674408204}
+  - component: {fileID: 9210003102674408205}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2630,17 +2633,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9525846e293ee1a46a8c7cfd22af1884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  suckRadius: 10
+  suckRadius: 12
   bitsLayer:
     serializedVersion: 2
     m_Bits: 128
   suckForce: 8
   minDistanceToDestroy: 3
   blackHolePrefab: {fileID: 6371148191558272657, guid: 9bd82431e9f219f4da71e7787610b95c, type: 3}
-  growthRate: 0.2
+  growthRate: 0.15
   maxBlackHoleSize: 4
   blackHoleOffset: 1.5
   throwForce: 250
+--- !u!114 &9210003102674408205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3293106984451895111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b56a0aeddcfb80748a0e5fd70ee0d734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bitsLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  chaosRange: 12
+  chaosForce: 2.5
+  chaosDuration: 1
+  freezeDelay: 0.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
