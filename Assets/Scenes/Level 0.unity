@@ -1423,7 +1423,7 @@ MonoBehaviour:
   holdPosition: {fileID: 8947824887812947468}
   grabLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 64
   highlightMaterial: {fileID: 2100000, guid: b2f73f98225d8854d85680538f8e9a08, type: 2}
 --- !u!1 &1442084542
 GameObject:
@@ -2128,8 +2128,8 @@ GameObject:
   - component: {fileID: 4533741106709175261}
   - component: {fileID: 3543527993267531991}
   - component: {fileID: 3220138191575692112}
-  - component: {fileID: 9210003102674408204}
   - component: {fileID: 9210003102674408205}
+  - component: {fileID: 9210003102674408206}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2621,29 +2621,6 @@ Transform:
   - {fileID: 5406413468936418003}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9210003102674408204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3293106984451895111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9525846e293ee1a46a8c7cfd22af1884, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  suckRadius: 12
-  bitsLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  suckForce: 8
-  minDistanceToDestroy: 3
-  blackHolePrefab: {fileID: 6371148191558272657, guid: 9bd82431e9f219f4da71e7787610b95c, type: 3}
-  growthRate: 0.15
-  maxBlackHoleSize: 4
-  blackHoleOffset: 1.5
-  throwForce: 250
 --- !u!114 &9210003102674408205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2663,6 +2640,29 @@ MonoBehaviour:
   chaosForce: 2.5
   chaosDuration: 1
   freezeDelay: 0.5
+--- !u!114 &9210003102674408206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3293106984451895111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304916f0d0c044b45a379dfe46f17e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  suckRadius: 15
+  bitsLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  suckForce: 10
+  minDistanceToDisable: 2
+  blackHolePrefab: {fileID: 6371148191558272657, guid: 9bd82431e9f219f4da71e7787610b95c, type: 3}
+  growthRate: 0.15
+  maxBlackHoleSize: 4
+  blackHoleOffset: 2
+  throwForce: 200
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
