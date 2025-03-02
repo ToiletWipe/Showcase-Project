@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlackHoleController : MonoBehaviour
+public class BlackHoleControllerV2 : MonoBehaviour
 {
     [Header("Sucking Settings")]
     public float suckRadius = 5f; // Radius to detect objects
     public LayerMask bitsLayer; // Layer for "Bits" objects
     public float suckForce = 50f; // Force applied to suck objects
-    public float minDistanceToDestroy = 0.5f; // Distance at which objects are destroyed
+    public float minDistanceToDisable = 0.5f; // Distance at which objects are disabled
 
     [Header("Black Hole Settings")]
     public GameObject blackHolePrefab; // Prefab for the black hole
@@ -21,6 +21,7 @@ public class BlackHoleController : MonoBehaviour
 
     private GameObject currentBlackHole; // Reference to the current black hole
     private List<Rigidbody> suckedObjects = new List<Rigidbody>(); // List of sucked objects
+    private int disabledObjectCount = 0; // Track the number of disabled objects
 
     void Update()
     {
@@ -58,7 +59,10 @@ public class BlackHoleController : MonoBehaviour
         collider.isTrigger = true;
 
         // Add a script to handle collisions with "Bits" objects
-        currentBlackHole.AddComponent<BlackHoleCollisionHandler>();
+        currentBlackHole.AddComponent<BlackHoleDisableHandler>().controller = this;
+
+        // Reset disabled object count
+        disabledObjectCount = 0;
     }
 
     // Detect and suck objects
@@ -87,13 +91,23 @@ public class BlackHoleController : MonoBehaviour
                 Vector3 direction = (currentBlackHole.transform.position - rb.position).normalized;
                 rb.AddForce(direction * suckForce, ForceMode.Acceleration);
 
-                // Destroy the object if it's close enough to the black hole
-                if (Vector3.Distance(rb.position, currentBlackHole.transform.position) < minDistanceToDestroy)
+                // Disable the object if it's close enough to the black hole
+                if (Vector3.Distance(rb.position, currentBlackHole.transform.position) < minDistanceToDisable)
                 {
-                    Destroy(rb.gameObject);
-                    GrowBlackHole();
+                    DisableObject(rb.gameObject);
                 }
             }
+        }
+    }
+
+    // Disable an object
+    public void DisableObject(GameObject obj)
+    {
+        if (obj.activeSelf) // Ensure the object is active before disabling it
+        {
+            obj.SetActive(false); // Disable the object
+            disabledObjectCount++; // Increment the disabled object count
+            GrowBlackHole(); // Grow the black hole
         }
     }
 
@@ -102,6 +116,7 @@ public class BlackHoleController : MonoBehaviour
     {
         if (currentBlackHole != null && currentBlackHole.transform.localScale.x < maxBlackHoleSize)
         {
+            // Increase the size of the black hole based on the number of disabled objects
             currentBlackHole.transform.localScale += new Vector3(growthRate, growthRate, growthRate);
         }
     }
@@ -131,20 +146,7 @@ public class BlackHoleController : MonoBehaviour
             // Reset for the next black hole
             currentBlackHole = null;
             suckedObjects.Clear();
-        }
-    }
-}
-
-// Script to handle collisions with the black hole
-public class BlackHoleCollisionHandler : MonoBehaviour
-{
-    void OnTriggerEnter(Collider other)
-    {
-        // Check if the object is in the "Bits" layer
-        if (other.gameObject.layer == LayerMask.NameToLayer("Bits"))
-        {
-            // Destroy the object
-            Destroy(other.gameObject);
+            disabledObjectCount = 0; // Reset disabled object count
         }
     }
 }
