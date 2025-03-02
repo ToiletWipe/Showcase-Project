@@ -87,8 +87,8 @@ public class ChaoticFreeze : MonoBehaviour
         {
             if (rb != null)
             {
-                rb.linearVelocity = Vector3.zero; // Stop movement
-                rb.angularVelocity = Vector3.zero; // Stop rotation
+                //rb.linearVelocity = Vector3.zero; // Stop movement
+                //rb.angularVelocity = Vector3.zero; // Stop rotation
                 rb.isKinematic = true; // Freeze the object
             }
         }

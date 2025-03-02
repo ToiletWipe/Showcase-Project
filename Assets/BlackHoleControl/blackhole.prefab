@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7476365470149922122}
   - component: {fileID: 1567311255627213295}
   - component: {fileID: 1772820120572358341}
-  - component: {fileID: 6169766374522018905}
+  - component: {fileID: 6041983443536048847}
   m_Layer: 0
   m_Name: blackhole
   m_TagString: Untagged
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &6169766374522018905
+--- !u!135 &6041983443536048847
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
