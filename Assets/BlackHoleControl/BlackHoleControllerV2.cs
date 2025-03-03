@@ -80,6 +80,9 @@ public class BlackHoleControllerV2 : MonoBehaviour
 
                 // Unfreeze position and rotation constraints
                 rb.constraints = RigidbodyConstraints.None;
+
+                // Manually set the center of mass for irregularly shaped objects
+                SetCenterOfMass(rb, true);
             }
         }
 
@@ -97,6 +100,22 @@ public class BlackHoleControllerV2 : MonoBehaviour
                     DisableObject(rb.gameObject);
                 }
             }
+        }
+    }
+
+    // Set or reset the center of mass
+    void SetCenterOfMass(Rigidbody rb, bool manual)
+    {
+        if (manual)
+        {
+            // Calculate the center of mass based on the object's bounds
+            Bounds bounds = rb.GetComponent<Collider>().bounds;
+            rb.centerOfMass = bounds.center - rb.transform.position;
+        }
+        else
+        {
+            // Reset to auto center of mass
+            rb.ResetCenterOfMass();
         }
     }
 
@@ -145,6 +164,16 @@ public class BlackHoleControllerV2 : MonoBehaviour
 
             // Reset for the next black hole
             currentBlackHole = null;
+
+            // Reset the center of mass for all sucked objects
+            foreach (var suckedRb in suckedObjects)
+            {
+                if (suckedRb != null)
+                {
+                    SetCenterOfMass(suckedRb, false); // Reset to auto center of mass
+                }
+            }
+
             suckedObjects.Clear();
             disabledObjectCount = 0; // Reset disabled object count
         }
