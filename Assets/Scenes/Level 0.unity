@@ -1423,7 +1423,7 @@ MonoBehaviour:
   holdPosition: {fileID: 8947824887812947468}
   grabLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
   highlightMaterial: {fileID: 2100000, guid: b2f73f98225d8854d85680538f8e9a08, type: 2}
 --- !u!1 &1442084542
 GameObject:

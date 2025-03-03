@@ -14,10 +14,13 @@ public class ForceGrabAndThrow : MonoBehaviour
 
     private GameObject grabbedObject; // Reference to the currently grabbed object
     private Rigidbody grabbedObjectRb; // Rigidbody of the grabbed object
+    private Collider grabbedObjectCollider; // Collider of the grabbed object
     private bool isHoldingObject = false; // Whether the player is currently holding an object
 
     private GameObject lastHighlightedObject; // Last object that was highlighted
     private Material[] originalMaterials; // Original materials of the highlighted object
+
+    private Vector3 grabOffset; // Offset between the hold position and the mesh center
 
     void Update()
     {
@@ -34,14 +37,22 @@ public class ForceGrabAndThrow : MonoBehaviour
             }
         }
 
-        // If holding an object, move it to the hold position
-        if (isHoldingObject && grabbedObject != null)
-        {
-            grabbedObjectRb.linearVelocity = (holdPosition.position - grabbedObject.transform.position) * grabForce;
-        }
-
         // Highlight objects within grab range
         HighlightObjectInRange();
+    }
+
+    void FixedUpdate()
+    {
+        // If holding an object, move it to the hold position with the offset
+        if (isHoldingObject && grabbedObject != null)
+        {
+            // Calculate the target position for the object's mesh center
+            Vector3 targetPosition = holdPosition.position - grabOffset;
+
+            // Directly set the velocity to move the object to the target position
+            Vector3 moveDirection = (targetPosition - GetMeshCenter(grabbedObject)) * grabForce;
+            grabbedObjectRb.linearVelocity = moveDirection;
+        }
     }
 
     void TryGrabObject()
@@ -56,8 +67,20 @@ public class ForceGrabAndThrow : MonoBehaviour
             {
                 grabbedObject = hit.collider.gameObject;
                 grabbedObjectRb = rb;
-                grabbedObjectRb.useGravity = false; // Disable gravity while holding
-                grabbedObjectRb.linearDamping = 10; // Increase drag to make it easier to hold
+                grabbedObjectCollider = hit.collider;
+
+                // Calculate the offset between the hold position and the mesh center
+                grabOffset = holdPosition.position - GetMeshCenter(grabbedObject);
+
+                // Disable collider and gravity while holding
+                grabbedObjectCollider.enabled = false;
+                grabbedObjectRb.useGravity = false;
+
+                // Freeze rotation and restrict movement
+                grabbedObjectRb.constraints = RigidbodyConstraints.FreezeRotation;
+
+                // Increase drag to make it easier to hold
+                grabbedObjectRb.linearDamping = 5;
                 isHoldingObject = true;
 
                 // Restore the original material of the previously highlighted object
@@ -70,8 +93,12 @@ public class ForceGrabAndThrow : MonoBehaviour
     {
         if (grabbedObject != null)
         {
-            // Re-enable gravity and reset drag
+            // Re-enable collider, gravity, and remove constraints
+            grabbedObjectCollider.enabled = true;
             grabbedObjectRb.useGravity = true;
+            grabbedObjectRb.constraints = RigidbodyConstraints.None;
+
+            // Reset drag
             grabbedObjectRb.linearDamping = 1;
 
             // Apply throw force in the direction the player is facing
@@ -80,6 +107,7 @@ public class ForceGrabAndThrow : MonoBehaviour
             // Release the object
             grabbedObject = null;
             grabbedObjectRb = null;
+            grabbedObjectCollider = null;
             isHoldingObject = false;
         }
     }
@@ -135,10 +163,31 @@ public class ForceGrabAndThrow : MonoBehaviour
         }
     }
 
+    private Vector3 GetMeshCenter(GameObject obj)
+    {
+        // Get the Renderer component to calculate the mesh bounds
+        Renderer renderer = obj.GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            // Return the center of the mesh bounds in world space
+            return renderer.bounds.center;
+        }
+
+        // Fallback to the object's position if no Renderer is found
+        return obj.transform.position;
+    }
+
     private void OnDrawGizmosSelected()
     {
         // Draw a debug line to visualize the grab range
         Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position, transform.position + transform.forward * grabRange);
+
+        // Draw the mesh center of the grabbed object
+        if (isHoldingObject && grabbedObject != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(GetMeshCenter(grabbedObject), 0.1f);
+        }
     }
 }
