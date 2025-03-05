@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlackHoleControllerV2 : MonoBehaviour
+public class BlackHoleV3 : MonoBehaviour
 {
     [Header("Sucking Settings")]
     public float suckRadius = 5f; // Radius to detect objects
@@ -21,7 +20,6 @@ public class BlackHoleControllerV2 : MonoBehaviour
 
     private GameObject currentBlackHole; // Reference to the current black hole
     private List<Rigidbody> suckedObjects = new List<Rigidbody>(); // List of sucked objects
-    private int disabledObjectCount = 0; // Track the number of disabled objects
 
     void Update()
     {
@@ -58,17 +56,20 @@ public class BlackHoleControllerV2 : MonoBehaviour
         collider.radius = 0.5f; // Adjust size as needed
         collider.isTrigger = true;
 
-        // Add a script to handle collisions with "Bits" objects
-        currentBlackHole.AddComponent<BlackHoleDisableHandler>().controller = this;
-
-        // Reset disabled object count
-        disabledObjectCount = 0;
+        // Reset sucked objects list
+        suckedObjects.Clear();
     }
 
     // Detect and suck objects
     void SuckObjects()
     {
         if (currentBlackHole == null) return;
+
+        // Stop sucking if the black hole has reached its maximum size
+        if (currentBlackHole.transform.localScale.x >= maxBlackHoleSize)
+        {
+            return;
+        }
 
         Collider[] hitColliders = Physics.OverlapSphere(currentBlackHole.transform.position, suckRadius, bitsLayer);
         foreach (var hitCollider in hitColliders)
@@ -77,12 +78,7 @@ public class BlackHoleControllerV2 : MonoBehaviour
             if (rb != null && !suckedObjects.Contains(rb))
             {
                 suckedObjects.Add(rb);
-
-                // Unfreeze position and rotation constraints
-                rb.constraints = RigidbodyConstraints.None;
-
-                // Manually set the center of mass for irregularly shaped objects
-                SetCenterOfMass(rb, true);
+                rb.constraints = RigidbodyConstraints.None; // Unfreeze position and rotation constraints
             }
         }
 
@@ -91,11 +87,11 @@ public class BlackHoleControllerV2 : MonoBehaviour
         {
             if (rb != null)
             {
-                Vector3 direction = (currentBlackHole.transform.position - rb.position).normalized;
+                Vector3 direction = (currentBlackHole.transform.position - rb.GetComponent<Collider>().bounds.center).normalized;
                 rb.AddForce(direction * suckForce, ForceMode.Acceleration);
 
                 // Disable the object if it's close enough to the black hole
-                if (Vector3.Distance(rb.position, currentBlackHole.transform.position) < minDistanceToDisable)
+                if (Vector3.Distance(rb.GetComponent<Collider>().bounds.center, currentBlackHole.transform.position) < minDistanceToDisable)
                 {
                     DisableObject(rb.gameObject);
                 }
@@ -103,29 +99,12 @@ public class BlackHoleControllerV2 : MonoBehaviour
         }
     }
 
-    // Set or reset the center of mass
-    void SetCenterOfMass(Rigidbody rb, bool manual)
-    {
-        if (manual)
-        {
-            // Calculate the center of mass based on the object's bounds
-            Bounds bounds = rb.GetComponent<Collider>().bounds;
-            rb.centerOfMass = bounds.center - rb.transform.position;
-        }
-        else
-        {
-            // Reset to auto center of mass
-            rb.ResetCenterOfMass();
-        }
-    }
-
     // Disable an object
-    public void DisableObject(GameObject obj)
+    void DisableObject(GameObject obj)
     {
         if (obj.activeSelf) // Ensure the object is active before disabling it
         {
             obj.SetActive(false); // Disable the object
-            disabledObjectCount++; // Increment the disabled object count
             GrowBlackHole(); // Grow the black hole
         }
     }
@@ -137,6 +116,12 @@ public class BlackHoleControllerV2 : MonoBehaviour
         {
             // Increase the size of the black hole based on the number of disabled objects
             currentBlackHole.transform.localScale += new Vector3(growthRate, growthRate, growthRate);
+
+            // Stop sucking if the black hole reaches its maximum size
+            if (currentBlackHole.transform.localScale.x >= maxBlackHoleSize)
+            {
+                Debug.Log("Black hole has reached maximum size and stopped sucking.");
+            }
         }
     }
 
@@ -164,18 +149,7 @@ public class BlackHoleControllerV2 : MonoBehaviour
 
             // Reset for the next black hole
             currentBlackHole = null;
-
-            // Reset the center of mass for all sucked objects
-            foreach (var suckedRb in suckedObjects)
-            {
-                if (suckedRb != null)
-                {
-                    SetCenterOfMass(suckedRb, false); // Reset to auto center of mass
-                }
-            }
-
             suckedObjects.Clear();
-            disabledObjectCount = 0; // Reset disabled object count
         }
     }
 }

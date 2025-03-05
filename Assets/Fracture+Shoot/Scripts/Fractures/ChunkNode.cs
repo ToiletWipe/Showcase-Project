@@ -96,8 +96,9 @@ namespace Project.Scripts.Fractures
             frozen = false;
             rb.constraints = RigidbodyConstraints.None;
             rb.useGravity = true;
-            //rb.interpolation = RigidbodyInterpolation.Interpolate; //here bitch if smooth doesnt work
-            //rb.mass = 10f;//force set mass here if broken
+            rb.interpolation = RigidbodyInterpolation.Interpolate; //here bitch if smooth doesnt work
+            //rb.mass = 8.5f;//force set mass here if broken
+            //rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic; //set collision detection
             rb.gameObject.layer = LayerMask.NameToLayer("Bits");
         }
 
