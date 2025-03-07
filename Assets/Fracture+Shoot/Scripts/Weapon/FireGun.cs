@@ -51,7 +51,7 @@ namespace Project.Scripts.Weapon
             rb.mass = mass;
             rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             
-            Destroy(bullet, 5);
+            Destroy(bullet, 1);
         }
     }
 }

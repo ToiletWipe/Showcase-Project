@@ -65,9 +65,9 @@ namespace Project.Scripts.Enemy
 
             // Set bullet color and emission
             var mat = bullet.GetComponent<Renderer>().material;
-            mat.color = Color.red;
+            mat.color = Color.white;
             mat.EnableKeyword("_EMISSION");
-            mat.SetColor("_EmissionColor", Color.white);
+            mat.SetColor("_EmissionColor", Color.red);
 
             // Add Rigidbody and set velocity
             var rb = bullet.AddComponent<Rigidbody>();
@@ -75,8 +75,8 @@ namespace Project.Scripts.Enemy
             rb.mass = mass;
             rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
-            // Destroy the bullet after 5 seconds
-            Destroy(bullet, 5);
+            // Destroy the bullet after seconds
+            Destroy(bullet, 1);
         }
     }
 }
