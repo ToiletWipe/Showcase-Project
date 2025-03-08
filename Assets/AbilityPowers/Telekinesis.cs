@@ -99,7 +99,7 @@ public class Telekinesis : MonoBehaviour
             grabbedObjectRb.constraints = RigidbodyConstraints.None;
 
             // Enable Continuous Collision Detection (CCD)
-            grabbedObjectRb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            grabbedObjectRb.collisionDetectionMode = CollisionDetectionMode.Continuous; //here for collois detec
 
             // Reset drag
             grabbedObjectRb.linearDamping = 1;
