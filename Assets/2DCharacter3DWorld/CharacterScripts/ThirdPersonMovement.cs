@@ -34,7 +34,7 @@ public class ThirdPersonMovement : MonoBehaviour
             else
             {
                 Debug.LogWarning(
-                    "FUCKING Warning: no main goddman main camera could be found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.", gameObject);
+                    "Warning: no main camera could be found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.", gameObject);
             }
         }
 
@@ -78,7 +78,7 @@ public class ThirdPersonMovement : MonoBehaviour
             controller.Move(movement);
             animator.SetFloat("speed",controller.velocity.magnitude); //animations only
         }else{
-            animator.SetFloat("speed",controller.velocity.magnitude); //finally no more fucking moonwalking fuck this code chatGPT saved the day
+            animator.SetFloat("speed",controller.velocity.magnitude); //finally 
         }
         controller.Move(gravityMovement);
         
