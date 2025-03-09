@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GrowingPillar: MonoBehaviour
+public class GrowingPillar : MonoBehaviour
 {
     [Header("Pillar Settings")]
     public float scaleSpeed = 1.0f; // Speed at which the pillar scales up
@@ -23,12 +23,6 @@ public class GrowingPillar: MonoBehaviour
 
         // Start with the pillar scaled down (hidden)
         transform.localScale = new Vector3(initialScale.x, 0, initialScale.z); // Only scale Y to zero
-
-        // Log a warning if the turret or anchor is not assigned
-        if (turret == null || turretAnchor == null)
-        {
-            Debug.LogWarning("Turret or Turret Anchor is not assigned. Turret functionality will be disabled.");
-        }
     }
 
     void Update()
