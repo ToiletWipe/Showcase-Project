@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GrowingPillar : MonoBehaviour
+public class GrowingPillar: MonoBehaviour
 {
     [Header("Pillar Settings")]
     public float scaleSpeed = 1.0f; // Speed at which the pillar scales up
@@ -12,6 +12,10 @@ public class GrowingPillar : MonoBehaviour
     public float destructionForce = 10.0f; // Force applied to walls when destroyed
     public LayerMask wallLayer; // LayerMask to filter which objects are considered walls
 
+    [Header("Turret Settings")]
+    public Transform turret; // Reference to the turret Transform
+    public Transform turretAnchor; // Reference to the anchor point Transform
+
     void Start()
     {
         // Store the initial scale of the pillar
@@ -19,6 +23,12 @@ public class GrowingPillar : MonoBehaviour
 
         // Start with the pillar scaled down (hidden)
         transform.localScale = new Vector3(initialScale.x, 0, initialScale.z); // Only scale Y to zero
+
+        // Log a warning if the turret or anchor is not assigned
+        if (turret == null || turretAnchor == null)
+        {
+            Debug.LogWarning("Turret or Turret Anchor is not assigned. Turret functionality will be disabled.");
+        }
     }
 
     void Update()
@@ -29,6 +39,12 @@ public class GrowingPillar : MonoBehaviour
             if (transform.localScale.y < maxScale)
             {
                 transform.localScale += Vector3.up * scaleSpeed * Time.deltaTime;
+
+                // Update the turret's position to follow the anchor point (if assigned)
+                if (turret != null && turretAnchor != null)
+                {
+                    turret.position = turretAnchor.position;
+                }
             }
         }
     }
