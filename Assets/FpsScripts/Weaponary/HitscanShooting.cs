@@ -31,7 +31,6 @@ public class HitscanShooting : MonoBehaviour
         // Check for left mouse button click
         if (Input.GetMouseButtonDown(0)) // 0 = left mouse button
         {
-            Debug.Log("Left mouse button clicked!"); // Debug: Confirm left-click is detected
             Shoot();
         }
     }
@@ -40,18 +39,11 @@ public class HitscanShooting : MonoBehaviour
     {
         if (LastShootTime + ShootDelay < Time.time)
         {
-            Debug.Log("Shoot method called!"); // Debug: Confirm Shoot method is executed
-
             // Play the muzzle flash particle system
             if (ShootingSystem != null)
             {
-                Debug.Log("Playing muzzle flash!"); // Debug: Confirm muzzle flash is being played
                 ShootingSystem.Stop(); // Ensure the particle system is reset
                 ShootingSystem.Play();
-            }
-            else
-            {
-                Debug.LogError("ShootingSystem is not assigned!"); // Debug: Warn if ShootingSystem is missing
             }
 
             Vector3 direction = transform.forward;
@@ -81,7 +73,6 @@ public class HitscanShooting : MonoBehaviour
         {
             // Apply force to the Rigidbody
             rb.AddForce(direction * BulletForce, ForceMode.Impulse);
-            Debug.Log("Force applied to object: " + collider.name);
         }
     }
 
