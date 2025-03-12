@@ -2,29 +2,49 @@ using UnityEngine;
 
 public class Explosive : MonoBehaviour
 {
-    [SerializeField] private float _triggerForce = 0.5f;
-    [SerializeField] private float _explosionRadius = 5;
-    [SerializeField] private float _explosionForce = 500;
-    [SerializeField] private GameObject _particles;
+    [SerializeField] private float _triggerForce = 0.5f; // Minimum collision force to trigger the explosion
+    [SerializeField] private float _explosionRadius = 5; // Radius of the explosion
+    [SerializeField] private float _explosionForce = 500; // Force of the explosion
+    [SerializeField] private GameObject _particles; // Particle effect for the explosion
+    [SerializeField] private LayerMask _layerMask; // Layer mask to filter which objects are affected
 
     private void OnCollisionEnter(Collision collision)
     {
+        // Trigger the explosion if the collision force is strong enough
         if (collision.relativeVelocity.magnitude >= _triggerForce)
         {
-            var surroundingObjects = Physics.OverlapSphere(transform.position, _explosionRadius);
+            Explode();
+        }
+    }
 
-            foreach (var obj in surroundingObjects)
-            {
-                var rb = obj.GetComponent<Rigidbody>();
-                if (rb == null) continue;
+    private void Explode()
+    {
+        // Find all colliders within the explosion radius
+        Collider[] surroundingObjects = Physics.OverlapSphere(transform.position, _explosionRadius, _layerMask);
 
-                rb.AddExplosionForce(_explosionForce, transform.position, _explosionRadius, 1);
-            }
+        foreach (var obj in surroundingObjects)
+        {
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+            if (rb == null) continue; // Skip objects without a Rigidbody
 
-            // Instantiate the particle effect
+            // Calculate the direction from the explosion center to the object
+            Vector3 direction = obj.transform.position - transform.position;
+            float distance = direction.magnitude;
+
+            // Normalize the direction and calculate the force scale (force decreases with distance)
+            direction.Normalize();
+            float forceScale = 1 - (distance / _explosionRadius); // Force scales from 1 (at center) to 0 (at edge)
+
+            // Apply the force to the object
+            rb.AddForce(direction * _explosionForce * forceScale, ForceMode.Impulse);
+        }
+
+        // Instantiate the particle effect
+        if (_particles != null)
+        {
             GameObject particlesInstance = Instantiate(_particles, transform.position, Quaternion.identity);
 
-            // Get the ParticleSystem component and destroy it after it finishes playing
+            // Destroy the particle effect after it finishes playing
             ParticleSystem ps = particlesInstance.GetComponent<ParticleSystem>();
             if (ps != null)
             {
@@ -34,8 +54,16 @@ public class Explosive : MonoBehaviour
             {
                 Destroy(particlesInstance, 2f); // Fallback if no ParticleSystem is found
             }
-
-            Destroy(gameObject);
         }
+
+        // Destroy the explosive object
+        Destroy(gameObject);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // Draw the explosion radius in the editor for debugging
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _explosionRadius);
     }
 }
