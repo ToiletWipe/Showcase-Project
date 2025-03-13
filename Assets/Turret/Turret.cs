@@ -5,11 +5,16 @@ namespace Project.Scripts.Enemy
     public class Turret : MonoBehaviour
     {
         [SerializeField] private Transform barrelEnd;
-        [SerializeField] private float radius = 0.1f;
+        [SerializeField] private float radius = 0.1f; // Reduced size of the projectile
         [SerializeField] private float velocity = 1000f;
         [SerializeField] private float mass = .5f;
         [SerializeField] private float fireRate = 1f; // Time between shots
         [SerializeField] private float detectionRange = 10f; // Range within which the turret detects the player
+        [SerializeField] private float damage = 10f; // Damage dealt by the turret
+
+        [SerializeField] private ParticleSystem muzzleFlashPrefab; // Muzzle flash effect
+        [SerializeField] private TrailRenderer bulletTrailPrefab; // Bullet trail effect
+        [SerializeField] private Material bulletMaterial; // Custom URP material for the bullet
 
         private Transform player;
         private float nextFireTime;
@@ -58,25 +63,56 @@ namespace Project.Scripts.Enemy
 
         private void FireBullet()
         {
-            // Create a bullet
+            // Muzzle Flash
+            if (muzzleFlashPrefab != null)
+            {
+                var muzzleFlash = Instantiate(muzzleFlashPrefab, barrelEnd.position, barrelEnd.rotation);
+                muzzleFlash.transform.localScale = Vector3.one * 0.3f;
+                muzzleFlash.Play();
+                Destroy(muzzleFlash.gameObject, muzzleFlash.main.duration);
+            }
+
+            // Create Bullet
             var bullet = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             bullet.transform.position = barrelEnd.position;
             bullet.transform.localScale = Vector3.one * radius;
 
-            // Set bullet color and emission
-            var mat = bullet.GetComponent<Renderer>().material;
-            mat.color = Color.white;
-            mat.EnableKeyword("_EMISSION");
-            mat.SetColor("_EmissionColor", Color.red);
+            // Apply URP material
+            var renderer = bullet.GetComponent<Renderer>();
+            if (renderer != null && bulletMaterial != null)
+            {
+                renderer.material = bulletMaterial;
+            }
 
-            // Add Rigidbody and set velocity
+            // Add Rigidbody
             var rb = bullet.AddComponent<Rigidbody>();
             rb.linearVelocity = barrelEnd.forward * velocity;
             rb.mass = mass;
             rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            rb.isKinematic = false;
 
-            // Destroy the bullet after seconds
-            Destroy(bullet, 1);
+            // Add Collider
+            var collider = bullet.GetComponent<SphereCollider>();
+            collider.isTrigger = false; //  Make sure it's NOT a trigger!
+
+            // Ensure it collides with EVERYTHING
+            bullet.layer = 0; // Default layer (will collide with all layers)
+
+            // Add bullet trail
+            if (bulletTrailPrefab != null)
+            {
+                var trail = Instantiate(bulletTrailPrefab, barrelEnd.position, Quaternion.identity);
+                trail.transform.SetParent(bullet.transform);
+            }
+
+            // Attach bullet logic
+            var turretBullet = bullet.AddComponent<TurretBullet>();
+            turretBullet.Initialize(damage);
+
+            // Destroy bullet after 1 second
+            Destroy(bullet, 1f);
         }
+
+
     }
 }
