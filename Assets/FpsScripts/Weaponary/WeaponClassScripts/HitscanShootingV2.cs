@@ -27,9 +27,13 @@ public class HitscanShootingV2 : MonoBehaviour
         }
 
         // Handle rapid fire (only if the current weapon has rapid fire enabled)
-        if (isFiring && currentWeapon.rapidFire)
+        if (isFiring && currentWeapon.rapidFire && weaponManager.CanShoot())
         {
-            Shoot();
+            if (Time.time >= lastShootTime + currentWeapon.fireRate)
+            {
+                Shoot();
+                lastShootTime = Time.time; // Update the last shoot time
+            }
         }
     }
 
@@ -39,9 +43,10 @@ public class HitscanShootingV2 : MonoBehaviour
 
         // If the current weapon does NOT have rapid fire, shoot once
         Weapon currentWeapon = weaponManager.weapons[weaponManager.currentWeaponIndex];
-        if (!currentWeapon.rapidFire)
+        if (!currentWeapon.rapidFire && weaponManager.CanShoot())
         {
             Shoot();
+            lastShootTime = Time.time; // Update the last shoot time
         }
     }
 
@@ -54,38 +59,43 @@ public class HitscanShootingV2 : MonoBehaviour
     {
         Weapon currentWeapon = weaponManager.weapons[weaponManager.currentWeaponIndex];
 
-        // Check if enough time has passed since the last shot
-        if (lastShootTime + currentWeapon.fireRate < Time.time)
+        // Check if the player can shoot
+        if (!weaponManager.CanShoot())
         {
-            // Play the muzzle flash particle system
-            if (currentWeapon.muzzleFlash != null)
+            return;
+        }
+
+        // Deduct ammo
+        currentWeapon.currentAmmo--;
+        Debug.Log("Shoot called! Current Ammo: " + currentWeapon.currentAmmo); // Debug log
+        weaponManager.UpdateAmmoUI(); // Call the public method to update the ammo UI
+
+        // Play the muzzle flash particle system
+        if (currentWeapon.muzzleFlash != null)
+        {
+            currentWeapon.muzzleFlash.Stop(); // Stop the particle system to reset it
+            currentWeapon.muzzleFlash.Play(); // Play the particle system
+        }
+
+        Vector3 direction = transform.forward;
+        TrailRenderer trail = Instantiate(currentWeapon.bulletTrail, bulletSpawnPoint.position, Quaternion.identity);
+
+        if (Physics.Raycast(bulletSpawnPoint.position, direction, out RaycastHit hit, float.MaxValue, mask))
+        {
+            // Apply force and damage to the object
+            ApplyForceToObject(hit.collider, direction, currentWeapon.bulletForce, currentWeapon.damage);
+
+            // Spawn impact particle system
+            if (currentWeapon.impactParticleSystem != null)
             {
-                currentWeapon.muzzleFlash.Stop(); // Stop the particle system to reset it
-                currentWeapon.muzzleFlash.Play(); // Play the particle system
+                Instantiate(currentWeapon.impactParticleSystem, hit.point, Quaternion.LookRotation(hit.normal));
             }
 
-            Vector3 direction = transform.forward;
-            TrailRenderer trail = Instantiate(currentWeapon.bulletTrail, bulletSpawnPoint.position, Quaternion.identity);
-
-            if (Physics.Raycast(bulletSpawnPoint.position, direction, out RaycastHit hit, float.MaxValue, mask))
-            {
-                // Apply force and damage to the object
-                ApplyForceToObject(hit.collider, direction, currentWeapon.bulletForce, currentWeapon.damage);
-
-                // Spawn impact particle system
-                if (currentWeapon.impactParticleSystem != null)
-                {
-                    Instantiate(currentWeapon.impactParticleSystem, hit.point, Quaternion.LookRotation(hit.normal));
-                }
-
-                StartCoroutine(SpawnTrail(trail, hit.point, hit.normal, currentWeapon.bounceDistance, true));
-            }
-            else
-            {
-                StartCoroutine(SpawnTrail(trail, bulletSpawnPoint.position + direction * 100, Vector3.zero, currentWeapon.bounceDistance, false));
-            }
-
-            lastShootTime = Time.time;
+            StartCoroutine(SpawnTrail(trail, hit.point, hit.normal, currentWeapon.bounceDistance, true));
+        }
+        else
+        {
+            StartCoroutine(SpawnTrail(trail, bulletSpawnPoint.position + direction * 100, Vector3.zero, currentWeapon.bounceDistance, false));
         }
     }
 

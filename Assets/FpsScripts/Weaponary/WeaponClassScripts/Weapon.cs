@@ -15,4 +15,12 @@ public class Weapon
     public ParticleSystem muzzleFlash; // Muzzle flash particle system
     public ParticleSystem impactParticleSystem; // Impact particle system
     public TrailRenderer bulletTrail;  // Bullet trail renderer
+
+    // Ammo properties
+    public int maxAmmo; // Maximum ammo capacity
+    public int currentAmmo; // Current ammo count
+    public float reloadTime; // Time it takes to reload
+
+    // Reload UI
+    public GameObject reloadUI; // Reference to the reload UI GameObject for this weapon
 }
