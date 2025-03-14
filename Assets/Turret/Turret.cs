@@ -4,7 +4,7 @@ namespace Project.Scripts.Enemy
 {
     public class Turret : MonoBehaviour
     {
-        [SerializeField] private Transform barrelEnd;
+        [SerializeField] private Transform barrelEnd = null;
         [SerializeField] private float radius = 0.1f; // Reduced size of the projectile
         [SerializeField] private float velocity = 1000f;
         [SerializeField] private float mass = .5f;
@@ -12,9 +12,9 @@ namespace Project.Scripts.Enemy
         [SerializeField] private float detectionRange = 10f; // Range within which the turret detects the player
         [SerializeField] private float damage = 10f; // Damage dealt by the turret
 
-        [SerializeField] private ParticleSystem muzzleFlashPrefab; // Muzzle flash effect
-        [SerializeField] private TrailRenderer bulletTrailPrefab; // Bullet trail effect
-        [SerializeField] private Material bulletMaterial; // Custom URP material for the bullet
+        [SerializeField] private ParticleSystem muzzleFlashPrefab = null; // Muzzle flash effect
+        [SerializeField] private TrailRenderer bulletTrailPrefab = null; // Bullet trail effect
+        [SerializeField] private Material bulletMaterial = null; // Custom URP material for the bullet
 
         private Transform player;
         private float nextFireTime;

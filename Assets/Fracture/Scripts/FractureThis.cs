@@ -10,8 +10,8 @@ namespace Project.Scripts.Fractures
         [SerializeField] private float density = 50;
         [SerializeField] private float internalStrength = 100;
             
-        [SerializeField] private Material insideMaterial;
-        [SerializeField] private Material outsideMaterial;
+        [SerializeField] private Material insideMaterial = null;
+        [SerializeField] private Material outsideMaterial = null;
 
         private Random rng = new Random();
 

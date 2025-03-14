@@ -5,8 +5,10 @@ public class Explosive : MonoBehaviour
     [SerializeField] private float _triggerForce = 0.5f; // Minimum collision force to trigger the explosion
     [SerializeField] private float _explosionRadius = 5; // Radius of the explosion
     [SerializeField] private float _explosionForce = 500; // Force of the explosion
-    [SerializeField] private GameObject _particles; // Particle effect for the explosion
+    [SerializeField] private GameObject _particles = null; // Particle effect for the explosion
+    #pragma warning disable CS0649
     [SerializeField] private LayerMask _layerMask; // Layer mask to filter which objects are affected
+    #pragma warning restore CS0649
 
     private void OnCollisionEnter(Collision collision)
     {
