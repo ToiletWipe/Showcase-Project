@@ -17873,7 +17873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 1502640299}
   grabRange: 10
-  throwForce: 1000
+  throwForce: 1500
   highlightMaterial: {fileID: 2100000, guid: b2f73f98225d8854d85680538f8e9a08, type: 2}
   snapPoints:
   - {fileID: 1342350694}

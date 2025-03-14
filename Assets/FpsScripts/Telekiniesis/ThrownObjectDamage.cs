@@ -1,9 +1,23 @@
 using UnityEngine;
+using System.Collections;
 
 public class ThrownObjectDamage : MonoBehaviour
 {
+    private bool isThrown = false; // Flag to track if the object has been thrown
+
+    public void SetThrown(bool thrown)
+    {
+        isThrown = thrown; // Set the thrown state
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
+        // Only proceed if the object has been thrown
+        if (!isThrown)
+        {
+            return;
+        }
+
         // Check if the object has a Health component
         Health health = collision.gameObject.GetComponent<Health>();
         if (health != null)
@@ -13,7 +27,7 @@ public class ThrownObjectDamage : MonoBehaviour
         }
 
         // Call the method to destroy the object after 1 second
-        Invoke("DestroyObject", 0.2f); // 1 second delay before destroying the object
+        Invoke("DestroyObject", 0.4f); // 1 second delay before destroying the object
     }
 
     private void DestroyObject()

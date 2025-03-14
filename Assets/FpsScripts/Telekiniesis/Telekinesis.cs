@@ -105,9 +105,20 @@ public class Telekinesis : MonoBehaviour
 
     void UpdateHeldObjects()
     {
-        for (int i = 0; i < heldObjects.Count; i++)
+        // Iterate through held objects in reverse to safely remove destroyed objects
+        for (int i = heldObjects.Count - 1; i >= 0; i--)
         {
             Rigidbody rb = heldObjects[i];
+
+            // Check if the object has been destroyed
+            if (rb == null)
+            {
+                // Remove the destroyed object from the list and dictionary
+                heldObjects.RemoveAt(i);
+                objectReachedPoint.Remove(rb);
+                continue;
+            }
+
             Transform snapPoint = snapPoints[i];
 
             if (!objectReachedPoint[rb])
@@ -161,7 +172,8 @@ public class Telekinesis : MonoBehaviour
             rb.AddForce(throwDirection * throwForce, ForceMode.Impulse);
 
             // Add damage script to thrown object to deal damage and destroy it
-            rb.gameObject.AddComponent<ThrownObjectDamage>(); // Add the damage script to handle destruction
+            ThrownObjectDamage thrownObjectDamage = rb.gameObject.AddComponent<ThrownObjectDamage>();
+            thrownObjectDamage.SetThrown(true); // Mark the object as thrown
         }
 
         heldObjects.Clear();
