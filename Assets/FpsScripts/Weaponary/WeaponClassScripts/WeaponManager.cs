@@ -71,6 +71,17 @@ public class WeaponManager : MonoBehaviour
             SwitchWeapon(2);
         }
 
+        // Switch weapons using scroll wheel
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll > 0f) // Scroll up
+        {
+            SwitchToNextWeapon();
+        }
+        else if (scroll < 0f) // Scroll down
+        {
+            SwitchToPreviousWeapon();
+        }
+
         // Reload the current weapon
         if (Input.GetKeyDown(KeyCode.R) && !_isReloading)
         {
@@ -108,6 +119,26 @@ public class WeaponManager : MonoBehaviour
         {
             Debug.LogWarning("Invalid weapon index: " + newIndex);
         }
+    }
+
+    private void SwitchToNextWeapon()
+    {
+        int nextIndex = currentWeaponIndex + 1;
+        if (nextIndex >= weapons.Count)
+        {
+            nextIndex = 0; // Wrap around to the first weapon
+        }
+        SwitchWeapon(nextIndex);
+    }
+
+    private void SwitchToPreviousWeapon()
+    {
+        int previousIndex = currentWeaponIndex - 1;
+        if (previousIndex < 0)
+        {
+            previousIndex = weapons.Count - 1; // Wrap around to the last weapon
+        }
+        SwitchWeapon(previousIndex);
     }
 
     private void UpdateWeaponUI()
