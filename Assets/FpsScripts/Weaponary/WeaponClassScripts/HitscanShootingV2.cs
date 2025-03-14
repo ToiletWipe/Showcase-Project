@@ -26,8 +26,8 @@ public class HitscanShootingV2 : MonoBehaviour
             StopFiring();
         }
 
-        // Handle rapid fire (only if the current weapon has rapid fire enabled)
-        if (isFiring && currentWeapon.rapidFire && weaponManager.CanShoot())
+        // Handle shooting for all weapons (respect fireRate)
+        if (isFiring && weaponManager.CanShoot())
         {
             if (Time.time >= lastShootTime + currentWeapon.fireRate)
             {
@@ -41,12 +41,15 @@ public class HitscanShootingV2 : MonoBehaviour
     {
         isFiring = true;
 
-        // If the current weapon does NOT have rapid fire, shoot once
+        // If the current weapon does NOT have rapid fire, shoot once (if fireRate allows)
         Weapon currentWeapon = weaponManager.weapons[weaponManager.currentWeaponIndex];
         if (!currentWeapon.rapidFire && weaponManager.CanShoot())
         {
-            Shoot();
-            lastShootTime = Time.time; // Update the last shoot time
+            if (Time.time >= lastShootTime + currentWeapon.fireRate)
+            {
+                Shoot();
+                lastShootTime = Time.time; // Update the last shoot time
+            }
         }
     }
 

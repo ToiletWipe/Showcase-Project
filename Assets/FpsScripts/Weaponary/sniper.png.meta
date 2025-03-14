@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9394c0c036dbddc419b002e805f40e53
+guid: 9bba35a7e33910249b1b3b3a9352699a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 256
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Blicky
+      name: sniper_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 2
         y: 0
-        width: 668
-        height: 561
+        width: 798
+        height: 800
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,8 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6dd2f385b6ae6af4ba8a563ef2190e56
-      internalID: 266082173
+      spriteID: 9ecf91fa93b70eb44a13a6ff30aae588
+      internalID: -1798659845
       vertices: []
       indices: 
       edges: []
@@ -122,7 +122,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 757b9a712f38e7048b2e3a5abc06fac3
+    spriteID: 39b84b5e936759945b245841467c6104
     internalID: 0
     vertices: []
     indices: 
@@ -132,7 +132,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Blicky: 266082173
+      sniper_0: -1798659845
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

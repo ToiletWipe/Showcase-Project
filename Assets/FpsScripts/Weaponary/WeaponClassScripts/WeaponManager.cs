@@ -74,7 +74,7 @@ public class WeaponManager : MonoBehaviour
         // Reload the current weapon
         if (Input.GetKeyDown(KeyCode.R) && !_isReloading)
         {
-            StartReload();
+            TryReload();
         }
     }
 
@@ -93,12 +93,6 @@ public class WeaponManager : MonoBehaviour
             if (weapons[currentWeaponIndex].reloadUI != null)
             {
                 weapons[currentWeaponIndex].reloadUI.SetActive(false);
-            }
-
-            // Show the current weapon's image
-            if (weaponImages[currentWeaponIndex] != null)
-            {
-                weaponImages[currentWeaponIndex].gameObject.SetActive(true);
             }
 
             currentWeaponIndex = newIndex;
@@ -144,6 +138,21 @@ public class WeaponManager : MonoBehaviour
         // Update the ammo counter text
         Weapon currentWeapon = weapons[currentWeaponIndex];
         ammoText.text = $"{currentWeapon.currentAmmo} / {currentWeapon.maxAmmo}";
+    }
+
+    private void TryReload()
+    {
+        Weapon currentWeapon = weapons[currentWeaponIndex];
+
+        // Check if the current ammo is already full
+        if (currentWeapon.currentAmmo >= currentWeapon.maxAmmo)
+        {
+            Debug.Log("Ammo is already full!");
+            return;
+        }
+
+        // Start the reload process
+        StartReload();
     }
 
     private void StartReload()

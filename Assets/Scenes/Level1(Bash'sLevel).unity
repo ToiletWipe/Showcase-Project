@@ -2271,25 +2271,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapons:
-  - weaponName: Blicky
-    weaponIcon: {fileID: 266082173, guid: 9394c0c036dbddc419b002e805f40e53, type: 3}
-    fireRate: 0.15
+  - weaponName: Sniper
+    weaponIcon: {fileID: -1798659845, guid: 9bba35a7e33910249b1b3b3a9352699a, type: 3}
+    fireRate: 0.7
     bulletSpeed: 70
-    bulletForce: 300
-    damage: 5
+    bulletForce: 900
+    damage: 20
     bouncingBullets: 1
-    bounceDistance: 20
+    bounceDistance: 25
     rapidFire: 0
     muzzleFlash: {fileID: 2073440461}
     impactParticleSystem: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a, type: 3}
     bulletTrail: {fileID: 328621789431213768, guid: 77aabc7051f9fad4c97fa15c121a0579, type: 3}
-    maxAmmo: 20
-    currentAmmo: 21
-    reloadTime: 0.5
-    reloadUI: {fileID: 448917021}
+    maxAmmo: 8
+    currentAmmo: 9
+    reloadTime: 1
+    reloadUI: {fileID: 1795029535}
   - weaponName: SMG
     weaponIcon: {fileID: 25353442, guid: aaa82af7a3139694f8fb79fb9cbe55e0, type: 3}
-    fireRate: 0.1
+    fireRate: 0.07
     bulletSpeed: 70
     bulletForce: 300
     damage: 2
@@ -2301,12 +2301,12 @@ MonoBehaviour:
     bulletTrail: {fileID: 328621789431213768, guid: 77aabc7051f9fad4c97fa15c121a0579, type: 3}
     maxAmmo: 60
     currentAmmo: 61
-    reloadTime: 0.7
+    reloadTime: 0.5
     reloadUI: {fileID: 300481912}
   weaponImages:
   - {fileID: 1162386986}
   - {fileID: 689184188}
-  currentWeaponIndex: 1
+  currentWeaponIndex: 0
   ammoText: {fileID: 1098274255}
 --- !u!114 &257931440
 MonoBehaviour:
@@ -3775,81 +3775,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 441980744}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &448917021
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 448917022}
-  - component: {fileID: 448917024}
-  - component: {fileID: 448917023}
-  m_Layer: 5
-  m_Name: BlickyReload
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &448917022
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 448917021}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1654482166}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 264, y: -174.7}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &448917023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 448917021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 385194468, guid: ee90e119c88458945bb5972ef25f2f73, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &448917024
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 448917021}
-  m_CullTransparentMesh: 1
 --- !u!1 &468881734
 GameObject:
   m_ObjectHideFlags: 0
@@ -5915,10 +5840,12 @@ MonoBehaviour:
 
     1 & 2 = SwitchWeapon
 
-    AR = Rapid
+    R = Reload
 
-    Blicky
-    = Bounce
+    AR
+    = Rapid
+
+    Sniper = Bounce
 
 
     E = Grab (Up to 3)
@@ -5926,11 +5853,11 @@ MonoBehaviour:
     Right Click = Throw
 
 
-    G = Blackhole
+    G
+    = Blackhole
 
 
-    X
-    = ChaosFreeze
+    X = ChaosFreeze
 
 '
   m_isRightToLeft: 0
@@ -12476,7 +12403,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: Ammo
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12485,8 +12412,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4291428096
+  m_fontColor: {r: 0, g: 1, b: 0.7862878, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -12503,15 +12430,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -12563,7 +12490,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1098274254}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 16.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12571,8 +12498,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -181.6}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 346.8, y: -162.49985}
+  m_SizeDelta: {x: 104.877594, y: 36.944}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1108740410 stripped
 Transform:
@@ -14487,7 +14414,7 @@ GameObject:
   - component: {fileID: 1162386987}
   - component: {fileID: 1162386986}
   m_Layer: 5
-  m_Name: Blicky
+  m_Name: Sniper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14502,14 +14429,14 @@ RectTransform:
   m_GameObject: {fileID: 1162386984}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2043269, y: 1.093463, z: 1.112}
+  m_LocalScale: {x: 1.5320212, y: 1.3909914, z: 1.4145724}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1654482166}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 289.9, y: -142.1}
+  m_AnchoredPosition: {x: 211.9, y: -39}
   m_SizeDelta: {x: 270.926, y: 270.92}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1162386986
@@ -14532,7 +14459,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 266082173, guid: 9394c0c036dbddc419b002e805f40e53, type: 3}
+  m_Sprite: {fileID: -1798659845, guid: 9bba35a7e33910249b1b3b3a9352699a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18117,7 +18044,7 @@ Transform:
   m_GameObject: {fileID: 1555770157}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.54, y: 2.59, z: -1.05}
+  m_LocalPosition: {x: -1.54, y: 2.59, z: -1.07}
   m_LocalScale: {x: 8.461431, y: 4.569789, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19134,12 +19061,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 688072608}
-  - {fileID: 738386923}
+  - {fileID: 300481913}
+  - {fileID: 1795029536}
   - {fileID: 1162386985}
   - {fileID: 689184190}
-  - {fileID: 300481913}
   - {fileID: 1098274257}
-  - {fileID: 448917022}
+  - {fileID: 738386923}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -20429,6 +20356,81 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1795029535
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1795029536}
+  - component: {fileID: 1795029538}
+  - component: {fileID: 1795029537}
+  m_Layer: 5
+  m_Name: Sniperreload
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1795029536
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795029535}
+  m_LocalRotation: {x: -0, y: -0, z: 0.25970024, w: 0.96568936}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5320212, y: 1.3909914, z: 1.4145724}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1654482166}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30.105}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 40, y: -134.6}
+  m_SizeDelta: {x: 270.926, y: 270.92}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1795029537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795029535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -1798659845, guid: 9bba35a7e33910249b1b3b3a9352699a, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1795029538
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795029535}
+  m_CullTransparentMesh: 1
 --- !u!1 &1817591371
 GameObject:
   m_ObjectHideFlags: 0
