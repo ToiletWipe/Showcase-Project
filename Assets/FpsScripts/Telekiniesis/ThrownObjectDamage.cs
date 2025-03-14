@@ -13,7 +13,7 @@ public class ThrownObjectDamage : MonoBehaviour
         }
 
         // Call the method to destroy the object after 1 second
-        Invoke("DestroyObject", 0.5f); // 1 second delay before destroying the object
+        Invoke("DestroyObject", 0.2f); // 1 second delay before destroying the object
     }
 
     private void DestroyObject()

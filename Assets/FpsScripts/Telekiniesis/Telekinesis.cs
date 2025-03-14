@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class Telekinesis : MonoBehaviour
@@ -11,15 +12,44 @@ public class Telekinesis : MonoBehaviour
     public LayerMask grabbableLayer; // Set in Inspector
     public float pickupSmoothSpeed = 10f; // Speed of object moving to snap point
 
+    // UI References
+    public GameObject leftHandImage; // Assign the left hand image in the Inspector
+    public GameObject rightHandImage; // Assign the right hand image in the Inspector
+    public GameObject[] weaponCanvases; // Assign all weapon canvases in the Inspector
+    private int activeWeaponIndex = 0; // Tracks the currently active weapon
+
     private List<Rigidbody> heldObjects = new List<Rigidbody>();
     private Dictionary<Rigidbody, bool> objectReachedPoint = new Dictionary<Rigidbody, bool>();
     private List<Renderer> highlightedObjects = new List<Renderer>();
     private Dictionary<Renderer, Material> originalMaterials = new Dictionary<Renderer, Material>(); // Track original materials
     private int maxObjects = 3;
 
+    private bool useLeftHandNext = true; // Flag to alternate hands when picking up
+
+    void Start()
+    {
+        // Initialize the active weapon canvas
+        SetActiveWeaponCanvas(activeWeaponIndex);
+
+        // Hide hands at the start
+        leftHandImage.SetActive(false);
+        rightHandImage.SetActive(false);
+    }
+
     void Update()
     {
-        // This will still handle grabbing objects and throwing them
+        // Handle weapon switching
+        if (Input.GetKeyDown(KeyCode.Alpha1)) // Switch to weapon 1
+        {
+            SwitchWeapon(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) // Switch to weapon 2
+        {
+            SwitchWeapon(1);
+        }
+        // Add more keys for additional weapons if needed
+
+        // Handle grabbing and throwing
         if (Input.GetKeyDown(KeyCode.E))
             TryGrabObject();
 
@@ -58,6 +88,19 @@ public class Telekinesis : MonoBehaviour
 
         objectReachedPoint[rb] = false; // Object is moving towards snap point
         heldObjects.Add(rb);
+
+        // Show one hand briefly (alternating) and hide the active weapon canvas
+        if (useLeftHandNext)
+        {
+            StartCoroutine(ShowHandBriefly(leftHandImage, weaponCanvases[activeWeaponIndex]));
+        }
+        else
+        {
+            StartCoroutine(ShowHandBriefly(rightHandImage, weaponCanvases[activeWeaponIndex]));
+        }
+
+        // Toggle the hand flag for the next pickup
+        useLeftHandNext = !useLeftHandNext;
     }
 
     void UpdateHeldObjects()
@@ -87,6 +130,15 @@ public class Telekinesis : MonoBehaviour
 
     void ThrowAllObjects()
     {
+        // Check if there are any held objects
+        if (heldObjects.Count == 0)
+        {
+            return; // Exit if there are no objects to throw
+        }
+
+        // Show both hands briefly and hide the active weapon canvas
+        StartCoroutine(ShowBothHandsBriefly(leftHandImage, rightHandImage, weaponCanvases[activeWeaponIndex]));
+
         foreach (Rigidbody rb in heldObjects)
         {
             rb.isKinematic = false;
@@ -148,6 +200,71 @@ public class Telekinesis : MonoBehaviour
                 rend.material = highlightMaterial; // Highlight the object
                 highlightedObjects.Add(rend);
             }
+        }
+    }
+
+    // Coroutine to show one hand briefly and hide the active weapon canvas
+    private IEnumerator ShowHandBriefly(GameObject hand, GameObject weaponCanvas)
+    {
+        // Hide the active weapon canvas
+        weaponCanvas.SetActive(false);
+
+        // Show the hand
+        hand.SetActive(true);
+
+        // Wait for a brief period (e.g., 0.5 seconds)
+        yield return new WaitForSeconds(0.4f);
+
+        // Hide the hand
+        hand.SetActive(false);
+
+        // Show the active weapon canvas again
+        weaponCanvas.SetActive(true);
+    }
+
+    // Coroutine to show both hands briefly and hide the active weapon canvas
+    private IEnumerator ShowBothHandsBriefly(GameObject leftHand, GameObject rightHand, GameObject weaponCanvas)
+    {
+        // Hide the active weapon canvas
+        weaponCanvas.SetActive(false);
+
+        // Show both hands
+        leftHand.SetActive(true);
+        rightHand.SetActive(true);
+
+        // Wait for a brief period (e.g., 0.5 seconds)
+        yield return new WaitForSeconds(0.5f);
+
+        // Hide both hands
+        leftHand.SetActive(false);
+        rightHand.SetActive(false);
+
+        // Show the active weapon canvas again
+        weaponCanvas.SetActive(true);
+    }
+
+    // Switch between weapons
+    private void SwitchWeapon(int newWeaponIndex)
+    {
+        if (newWeaponIndex >= 0 && newWeaponIndex < weaponCanvases.Length)
+        {
+            // Hide the current weapon canvas
+            weaponCanvases[activeWeaponIndex].SetActive(false);
+
+            // Update the active weapon index
+            activeWeaponIndex = newWeaponIndex;
+
+            // Show the new weapon canvas
+            weaponCanvases[activeWeaponIndex].SetActive(true);
+        }
+    }
+
+    // Set the active weapon canvas
+    private void SetActiveWeaponCanvas(int index)
+    {
+        for (int i = 0; i < weaponCanvases.Length; i++)
+        {
+            weaponCanvases[i].SetActive(i == index);
         }
     }
 }
