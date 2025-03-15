@@ -18447,7 +18447,7 @@ MonoBehaviour:
   grabbableLayer:
     serializedVersion: 2
     m_Bits: 64
-  pickupSmoothSpeed: 20
+  pickupSmoothSpeed: 30
   leftHandImage: {fileID: 476328854}
   rightHandImage: {fileID: 667232303}
   weaponCanvases:
