@@ -499,7 +499,7 @@ MonoBehaviour:
   fireRate: 8
   detectionRange: 20
   damage: 1
-  muzzleFlashPrefab: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
+  muzzleFlashPrefab: {fileID: 7980029976762078213, guid: 80df66125946df542a4655edbdbd4a7b, type: 3}
   bulletTrailPrefab: {fileID: 328621789431213768, guid: 77aabc7051f9fad4c97fa15c121a0579, type: 3}
   bulletMaterial: {fileID: 2100000, guid: d16a59a81d15d9b4cbca34f566f8834d, type: 2}
 --- !u!1 &3933392816196963899
