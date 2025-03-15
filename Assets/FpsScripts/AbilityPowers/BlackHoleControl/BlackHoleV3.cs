@@ -17,6 +17,13 @@ public class BlackHoleV3 : MonoBehaviour
 
     [Header("Throw Settings")]
     public float throwForce = 500f; // Force applied to throw the black hole
+    public float colliderEnableDelay = 0.5f; // Delay before enabling the collider after throwing
+
+    [Header("Explosion Settings")]
+    public float baseExplosionRadius = 5f; // Base radius of the explosion
+    public float baseExplosionForce = 1000f; // Base force of the explosion
+    public float explosionDelay = 0.3f; // Delay before explosion (0.3 seconds)
+    public GameObject explosionParticles; // Particle effect for the explosion
 
     private GameObject currentBlackHole; // Reference to the current black hole
     private List<Rigidbody> suckedObjects = new List<Rigidbody>(); // List of sucked objects
@@ -51,10 +58,10 @@ public class BlackHoleV3 : MonoBehaviour
         currentBlackHole = Instantiate(blackHolePrefab, transform.position + transform.forward * blackHoleOffset, Quaternion.identity);
         currentBlackHole.transform.localScale = Vector3.one * 0.1f; // Start small
 
-        // Add a trigger collider to detect objects
+        // Add a SphereCollider to detect objects
         SphereCollider collider = currentBlackHole.AddComponent<SphereCollider>();
-        collider.radius = 0.5f; // Adjust size as needed
-        collider.isTrigger = true;
+        collider.radius = 0.5f; // Original collider size
+        collider.isTrigger = true; // Set as trigger for sucking
 
         // Reset sucked objects list
         suckedObjects.Clear();
@@ -134,7 +141,8 @@ public class BlackHoleV3 : MonoBehaviour
             Collider blackHoleCollider = currentBlackHole.GetComponent<Collider>();
             if (blackHoleCollider != null)
             {
-                blackHoleCollider.enabled = false;
+                blackHoleCollider.isTrigger = false; // Set as non-trigger for collisions
+                blackHoleCollider.enabled = false; // Disable the collider temporarily
             }
 
             // Add a Rigidbody if it doesn't have one
@@ -144,12 +152,44 @@ public class BlackHoleV3 : MonoBehaviour
                 rb = currentBlackHole.AddComponent<Rigidbody>();
             }
 
+            // Set the Rigidbody mass to 5
+            rb.mass = 8f;
+
+            // Set collision detection to ContinuousDynamic
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+
             // Apply force to throw the black hole
             rb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+
+            // Get the BlackHoleExplosion component (already on the prefab)
+            BlackHoleExplosion explosionScript = currentBlackHole.GetComponent<BlackHoleExplosion>();
+            if (explosionScript != null)
+            {
+                explosionScript.Initialize(
+                    baseExplosionRadius * currentBlackHole.transform.localScale.x, // Scale explosion radius
+                    baseExplosionForce * currentBlackHole.transform.localScale.x, // Scale explosion force
+                    explosionDelay,
+                    explosionParticles,
+                    50f // Set the explosion damage (e.g., 50 damage)
+                );
+            }
+
+            // Enable the collider after a delay
+            StartCoroutine(EnableColliderAfterDelay(blackHoleCollider, colliderEnableDelay));
 
             // Reset for the next black hole
             currentBlackHole = null;
             suckedObjects.Clear();
+        }
+    }
+
+    // Coroutine to enable the collider after a delay
+    private System.Collections.IEnumerator EnableColliderAfterDelay(Collider collider, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (collider != null)
+        {
+            collider.enabled = true;
         }
     }
 }

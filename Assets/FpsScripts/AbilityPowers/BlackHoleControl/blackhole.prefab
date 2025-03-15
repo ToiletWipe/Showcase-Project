@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7476365470149922122}
   - component: {fileID: 1567311255627213295}
   - component: {fileID: 1772820120572358341}
+  - component: {fileID: 6935800763481538187}
   m_Layer: 0
   m_Name: blackhole
   m_TagString: Untagged
@@ -88,6 +89,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6935800763481538187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6371148191558272657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7959be9ce45529b40a5572fa77b7bf83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionRadius: 2
+  explosionForce: 10
+  explosionDelay: 0.05
+  explosionParticles: {fileID: 8464950693656172981, guid: d38d927ad80e3014b9e83df8fe10ecfb, type: 3}
+  explosionDamage: 10
 --- !u!1001 &8799576984807885413
 PrefabInstance:
   m_ObjectHideFlags: 0
