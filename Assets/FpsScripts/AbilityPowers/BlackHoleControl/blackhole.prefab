@@ -104,7 +104,7 @@ MonoBehaviour:
   explosionRadius: 2
   explosionForce: 10
   explosionDelay: 0.05
-  explosionParticles: {fileID: 8464950693656172981, guid: d38d927ad80e3014b9e83df8fe10ecfb, type: 3}
+  explosionParticles: {fileID: 6441873369525384307, guid: 309f860fe86fa3e4cb5d288228fa18a8, type: 3}
   explosionDamage: 10
 --- !u!1001 &8799576984807885413
 PrefabInstance:
