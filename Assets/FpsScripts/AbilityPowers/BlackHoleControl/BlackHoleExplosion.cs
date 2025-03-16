@@ -2,12 +2,11 @@ using UnityEngine;
 
 public class BlackHoleExplosion : MonoBehaviour
 {
-    [Header("Explosion Settings")]
-    [SerializeField] private float explosionRadius; // Radius of the explosion
-    [SerializeField] private float explosionForce; // Force of the explosion
-    [SerializeField] private float explosionDelay; // Delay before explosion
-    [SerializeField] private GameObject explosionParticles; // Particle effect for the explosion
-    [SerializeField] private float explosionDamage; // Damage dealt by the explosion
+    private float explosionRadius; // Radius of the explosion
+    private float explosionForce; // Force of the explosion
+    private float explosionDelay; // Delay before explosion
+    private GameObject explosionParticles; // Particle effect for the explosion
+    private float explosionDamage; // Damage dealt by the explosion
 
     private bool hasExploded = false;
 

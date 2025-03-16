@@ -166,8 +166,8 @@ public class BlackHoleV3 : MonoBehaviour
             if (explosionScript != null)
             {
                 explosionScript.Initialize(
-                    baseExplosionRadius * currentBlackHole.transform.localScale.x, // Scale explosion radius
-                    baseExplosionForce * currentBlackHole.transform.localScale.x, // Scale explosion force
+                    baseExplosionRadius, // Use base explosion radius
+                    baseExplosionForce, // Use base explosion force
                     explosionDelay,
                     explosionParticles,
                     50f // Set the explosion damage (e.g., 50 damage)
