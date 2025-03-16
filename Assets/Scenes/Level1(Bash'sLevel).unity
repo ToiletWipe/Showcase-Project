@@ -18485,6 +18485,7 @@ MonoBehaviour:
   - {fileID: 1162386984}
   - {fileID: 300481912}
   - {fileID: 1795029535}
+  weaponManager: {fileID: 257931439}
 --- !u!43 &1504923711
 Mesh:
   m_ObjectHideFlags: 0

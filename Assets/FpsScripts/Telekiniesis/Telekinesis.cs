@@ -16,7 +16,9 @@ public class Telekinesis : MonoBehaviour
     public GameObject leftHandImage; // Assign the left hand image in the Inspector
     public GameObject rightHandImage; // Assign the right hand image in the Inspector
     public GameObject[] weaponCanvases; // Assign all weapon canvases in the Inspector
-    private int activeWeaponIndex = 0; // Tracks the currently active weapon
+
+    // Reference to WeaponManager
+    public WeaponManager weaponManager;
 
     private List<Rigidbody> heldObjects = new List<Rigidbody>();
     private Dictionary<Rigidbody, bool> objectReachedPoint = new Dictionary<Rigidbody, bool>();
@@ -25,11 +27,12 @@ public class Telekinesis : MonoBehaviour
     private int maxObjects = 3;
 
     private bool useLeftHandNext = true; // Flag to alternate hands when picking up
+    private bool isTelekineticActionActive = false; // Flag to block weapon switching during telekinesis
 
     void Start()
     {
         // Initialize the active weapon canvas
-        SetActiveWeaponCanvas(activeWeaponIndex);
+        SetActiveWeaponCanvas(weaponManager.currentWeaponIndex);
 
         // Hide hands at the start
         leftHandImage.SetActive(false);
@@ -38,16 +41,11 @@ public class Telekinesis : MonoBehaviour
 
     void Update()
     {
-        // Handle weapon switching
-        if (Input.GetKeyDown(KeyCode.Alpha1)) // Switch to weapon 1
+        // Handle weapon switching (only if no telekinetic action is active)
+        if (!isTelekineticActionActive)
         {
-            SwitchWeapon(0);
+            // Weapon switching is handled by WeaponManager, so no need to duplicate logic here
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) // Switch to weapon 2
-        {
-            SwitchWeapon(1);
-        }
-        // Add more keys for additional weapons if needed
 
         // Handle grabbing and throwing
         if (Input.GetKeyDown(KeyCode.E))
@@ -92,11 +90,11 @@ public class Telekinesis : MonoBehaviour
         // Show one hand briefly (alternating) and hide the active weapon canvas
         if (useLeftHandNext)
         {
-            StartCoroutine(ShowHandBriefly(leftHandImage, weaponCanvases[activeWeaponIndex]));
+            StartCoroutine(ShowHandBriefly(leftHandImage));
         }
         else
         {
-            StartCoroutine(ShowHandBriefly(rightHandImage, weaponCanvases[activeWeaponIndex]));
+            StartCoroutine(ShowHandBriefly(rightHandImage));
         }
 
         // Toggle the hand flag for the next pickup
@@ -147,8 +145,8 @@ public class Telekinesis : MonoBehaviour
             return; // Exit if there are no objects to throw
         }
 
-        // Show both hands briefly and hide the active weapon canvas
-        StartCoroutine(ShowBothHandsBriefly(leftHandImage, rightHandImage, weaponCanvases[activeWeaponIndex]));
+        // Show both hands briefly
+        StartCoroutine(ShowBothHandsBriefly(leftHandImage, rightHandImage));
 
         foreach (Rigidbody rb in heldObjects)
         {
@@ -215,11 +213,14 @@ public class Telekinesis : MonoBehaviour
         }
     }
 
-    // Coroutine to show one hand briefly and hide the active weapon canvas
-    private IEnumerator ShowHandBriefly(GameObject hand, GameObject weaponCanvas)
+    // Coroutine to show one hand briefly
+    private IEnumerator ShowHandBriefly(GameObject hand)
     {
+        // Block weapon switching during telekinetic action
+        isTelekineticActionActive = true;
+
         // Hide the active weapon canvas
-        weaponCanvas.SetActive(false);
+        SetActiveWeaponCanvas(-1); // Hide all canvases
 
         // Show the hand
         hand.SetActive(true);
@@ -230,15 +231,21 @@ public class Telekinesis : MonoBehaviour
         // Hide the hand
         hand.SetActive(false);
 
-        // Show the active weapon canvas again
-        weaponCanvas.SetActive(true);
+        // Restore the active weapon canvas
+        SetActiveWeaponCanvas(weaponManager.currentWeaponIndex);
+
+        // Unblock weapon switching
+        isTelekineticActionActive = false;
     }
 
-    // Coroutine to show both hands briefly and hide the active weapon canvas
-    private IEnumerator ShowBothHandsBriefly(GameObject leftHand, GameObject rightHand, GameObject weaponCanvas)
+    // Coroutine to show both hands briefly
+    private IEnumerator ShowBothHandsBriefly(GameObject leftHand, GameObject rightHand)
     {
+        // Block weapon switching during telekinetic action
+        isTelekineticActionActive = true;
+
         // Hide the active weapon canvas
-        weaponCanvas.SetActive(false);
+        SetActiveWeaponCanvas(-1); // Hide all canvases
 
         // Show both hands
         leftHand.SetActive(true);
@@ -251,24 +258,11 @@ public class Telekinesis : MonoBehaviour
         leftHand.SetActive(false);
         rightHand.SetActive(false);
 
-        // Show the active weapon canvas again
-        weaponCanvas.SetActive(true);
-    }
+        // Restore the active weapon canvas
+        SetActiveWeaponCanvas(weaponManager.currentWeaponIndex);
 
-    // Switch between weapons
-    private void SwitchWeapon(int newWeaponIndex)
-    {
-        if (newWeaponIndex >= 0 && newWeaponIndex < weaponCanvases.Length)
-        {
-            // Hide the current weapon canvas
-            weaponCanvases[activeWeaponIndex].SetActive(false);
-
-            // Update the active weapon index
-            activeWeaponIndex = newWeaponIndex;
-
-            // Show the new weapon canvas
-            weaponCanvases[activeWeaponIndex].SetActive(true);
-        }
+        // Unblock weapon switching
+        isTelekineticActionActive = false;
     }
 
     // Set the active weapon canvas
