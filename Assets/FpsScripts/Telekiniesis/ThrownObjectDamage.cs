@@ -23,7 +23,7 @@ public class ThrownObjectDamage : MonoBehaviour
         if (health != null)
         {
             // Apply damage to the object
-            health.TakeDamage(20f); // Adjust the damage value as needed
+            health.TakeDamage(50f); // Adjust the damage value as needed
         }
 
         // Call the method to destroy the object after 1 second

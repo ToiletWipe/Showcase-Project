@@ -51,7 +51,7 @@ public class Telekinesis : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
             TryGrabObject();
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.F))
             ThrowAllObjects();
 
         HandleHighlighting(); // Keep handling highlighting for objects

@@ -1,11 +1,14 @@
 using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class HitscanShootingV2 : MonoBehaviour
 {
     public WeaponManager weaponManager; // Reference to the WeaponManager
     public Transform bulletSpawnPoint; // Spawn point for bullets
-    public LayerMask mask;             // Layer mask for raycasting
+    public LayerMask mask; // Layer mask for raycasting
+    public RicochetTrajectoryVisualizer trajectoryVisualizer; // Reference to the trajectory visualizer
+    public List<ScreenShake> screenShakes; // List of ScreenShake scripts (one for each gun image)
 
     private float lastShootTime;
     private bool isFiring; // Track if the fire button is held down
@@ -14,13 +17,13 @@ public class HitscanShootingV2 : MonoBehaviour
     {
         Weapon currentWeapon = weaponManager.weapons[weaponManager.currentWeaponIndex];
 
-        // Check for left mouse button press
+        // Check for left mouse button press (shooting)
         if (Input.GetMouseButtonDown(0)) // 0 = left mouse button
         {
             StartFiring();
         }
 
-        // Check for left mouse button release
+        // Check for left mouse button release (stop shooting)
         if (Input.GetMouseButtonUp(0)) // 0 = left mouse button
         {
             StopFiring();
@@ -29,10 +32,25 @@ public class HitscanShootingV2 : MonoBehaviour
         // Handle shooting for all weapons (respect fireRate)
         if (isFiring && weaponManager.CanShoot())
         {
-            if (Time.time >= lastShootTime + currentWeapon.fireRate)
+            if (currentWeapon.rapidFire && Time.time >= lastShootTime + currentWeapon.fireRate)
             {
                 Shoot();
                 lastShootTime = Time.time; // Update the last shoot time
+            }
+        }
+
+        // Visualize trajectory when holding right mouse button (only for the sniper)
+        if (currentWeapon.weaponName == "Sniper") // Replace "Sniper" with the exact name of your sniper weapon
+        {
+            if (Input.GetMouseButton(1)) // 1 = right mouse button
+            {
+                trajectoryVisualizer.Initialize(bulletSpawnPoint, currentWeapon);
+                trajectoryVisualizer.DrawRicochetTrajectory();
+            }
+            else
+            {
+                // Stop drawing the trajectory when right mouse button is released
+                trajectoryVisualizer.StopDrawingTrajectory();
             }
         }
     }
@@ -41,15 +59,22 @@ public class HitscanShootingV2 : MonoBehaviour
     {
         isFiring = true;
 
-        // If the current weapon does NOT have rapid fire, shoot once (if fireRate allows)
+        // Get the current weapon
         Weapon currentWeapon = weaponManager.weapons[weaponManager.currentWeaponIndex];
-        if (!currentWeapon.rapidFire && weaponManager.CanShoot())
+
+        // If the current weapon has rapid fire, shoot immediately (if fireRate allows)
+        if (currentWeapon.rapidFire && weaponManager.CanShoot())
         {
             if (Time.time >= lastShootTime + currentWeapon.fireRate)
             {
                 Shoot();
                 lastShootTime = Time.time; // Update the last shoot time
             }
+        }
+        else if (!currentWeapon.rapidFire && weaponManager.CanShoot())
+        {
+            // If the weapon does NOT have rapid fire, shoot once
+            Shoot();
         }
     }
 
@@ -80,10 +105,29 @@ public class HitscanShootingV2 : MonoBehaviour
             currentWeapon.muzzleFlash.Play(); // Play the particle system
         }
 
+        // Trigger screen shake for the current weapon's UI image
+        if (screenShakes.Count > weaponManager.currentWeaponIndex)
+        {
+            ScreenShake currentScreenShake = screenShakes[weaponManager.currentWeaponIndex];
+            if (currentScreenShake != null)
+            {
+                currentScreenShake.TriggerShake(currentWeapon.screenShakeDuration, currentWeapon.screenShakeMagnitude);
+            }
+            else
+            {
+                Debug.LogError($"ScreenShake script for weapon {currentWeapon.weaponName} is not assigned!");
+            }
+        }
+        else
+        {
+            Debug.LogError($"No ScreenShake script assigned for weapon {currentWeapon.weaponName}!");
+        }
+
         Vector3 direction = transform.forward;
         TrailRenderer trail = Instantiate(currentWeapon.bulletTrail, bulletSpawnPoint.position, Quaternion.identity);
 
-        if (Physics.Raycast(bulletSpawnPoint.position, direction, out RaycastHit hit, float.MaxValue, mask))
+        RaycastHit hit; // Declare the hit variable here
+        if (Physics.Raycast(bulletSpawnPoint.position, direction, out hit, float.MaxValue, mask))
         {
             // Apply force and damage to the object
             ApplyForceToObject(hit.collider, direction, currentWeapon.bulletForce, currentWeapon.damage);
@@ -142,7 +186,10 @@ public class HitscanShootingV2 : MonoBehaviour
             {
                 Vector3 bounceDirection = Vector3.Reflect(direction, hitNormal);
 
-                if (Physics.Raycast(hitPoint, bounceDirection, out RaycastHit hit, bounceDistance, mask))
+                // Declare the hit variable outside the if block
+                RaycastHit hit;
+
+                if (Physics.Raycast(hitPoint, bounceDirection, out hit, bounceDistance, mask))
                 {
                     // Apply force to the bounced object if it has a Rigidbody
                     ApplyForceToObject(hit.collider, bounceDirection, weaponManager.weapons[weaponManager.currentWeaponIndex].bulletForce, weaponManager.weapons[weaponManager.currentWeaponIndex].damage);

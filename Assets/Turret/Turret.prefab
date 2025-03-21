@@ -479,7 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d53c72c2fe4da4d478343e1acc62323e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 50
 --- !u!114 &2524277633154401293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,11 +494,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   barrelEnd: {fileID: 9126976591229029560}
   radius: 0.06
-  velocity: 200
+  velocity: 300
   mass: 2
-  fireRate: 8
+  fireRate: 8.5
   detectionRange: 20
-  damage: 1
+  damage: 3
   muzzleFlashPrefab: {fileID: 7980029976762078213, guid: 80df66125946df542a4655edbdbd4a7b, type: 3}
   bulletTrailPrefab: {fileID: 328621789431213768, guid: 77aabc7051f9fad4c97fa15c121a0579, type: 3}
   bulletMaterial: {fileID: 2100000, guid: d16a59a81d15d9b4cbca34f566f8834d, type: 2}

@@ -7,6 +7,9 @@ public class Health : MonoBehaviour
     private Renderer objectRenderer; // Renderer component of the object
     private Color originalColor; // Original color of the object
 
+    // Public property to access currentHealth
+    public float CurrentHealth => currentHealth;
+
     private void Start()
     {
         currentHealth = maxHealth; // Initialize health

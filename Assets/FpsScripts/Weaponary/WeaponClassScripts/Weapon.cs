@@ -23,4 +23,8 @@ public class Weapon
 
     // Reload UI
     public GameObject reloadUI; // Reference to the reload UI GameObject for this weapon
+
+    // Screen shake properties
+    public float screenShakeDuration = 0.1f; // Duration of the screen shake
+    public float screenShakeMagnitude = 10f; // Intensity of the screen shake (in pixels)
 }
