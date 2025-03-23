@@ -10,6 +10,8 @@ public class WeaponManager : MonoBehaviour
     public List<Image> weaponImages; // List of UI Images for each weapon
     public int currentWeaponIndex = 0; // Index of the currently selected weapon
     public TextMeshProUGUI ammoText; // Reference to the ammo counter text
+    public MeterSystem meterSystem; // Reference to the MeterSystem
+    public float meterCostToReload = 20f; // Meter cost to reload
 
     // Private backing field for reloading state
     private bool _isReloading = false;
@@ -182,11 +184,20 @@ public class WeaponManager : MonoBehaviour
             return;
         }
 
-        // Start the reload process
-        StartReload();
+        // Check if there's enough meter to reload
+        if (meterSystem.HasEnoughMeter(meterCostToReload))
+        {
+            // Deduct the meter cost and start the reload process
+            meterSystem.DeductFromMeter(meterCostToReload);
+            StartReload();
+        }
+        else
+        {
+            Debug.Log("Not enough meter to reload!");
+        }
     }
 
-    private void StartReload()
+private void StartReload()
     {
         if (_isReloading || weapons[currentWeaponIndex] == null)
         {
