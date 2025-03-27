@@ -4,56 +4,61 @@ using System.Collections.Generic;
 
 public class HitscanShootingV2 : MonoBehaviour
 {
-    public WeaponManager weaponManager; // Reference to the WeaponManager
-    public Transform bulletSpawnPoint; // Spawn point for bullets
-    public LayerMask mask; // Layer mask for raycasting
-    public RicochetTrajectoryVisualizer trajectoryVisualizer; // Reference to the trajectory visualizer
-    public List<ScreenShake> screenShakes; // List of ScreenShake scripts (one for each gun image)
+    public WeaponManager weaponManager;
+    public Transform bulletSpawnPoint;
+    public LayerMask mask;
+    public RicochetTrajectoryVisualizer trajectoryVisualizer;
+    public List<ScreenShake> screenShakes;
+    public GrenadeThrower grenadeThrower; // NEW: Grenade reference
 
     private float lastShootTime;
-    private bool isFiring; // Track if the fire button is held down
+    private bool isFiring;
 
     private void Update()
     {
         Weapon currentWeapon = weaponManager.weapons[weaponManager.currentWeaponIndex];
 
-        // Check for left mouse button press (shooting)
-        if (Input.GetMouseButtonDown(0)) // 0 = left mouse button
+        // Left-Click: Shooting
+        if (Input.GetMouseButtonDown(0))
         {
             StartFiring();
         }
-
-        // Check for left mouse button release (stop shooting)
-        if (Input.GetMouseButtonUp(0)) // 0 = left mouse button
+        if (Input.GetMouseButtonUp(0))
         {
             StopFiring();
         }
 
-        // Handle shooting for all weapons (respect fireRate)
+        // Rapid Fire Handling
         if (isFiring && weaponManager.CanShoot())
         {
             if (currentWeapon.rapidFire && Time.time >= lastShootTime + currentWeapon.fireRate)
             {
                 Shoot();
-                lastShootTime = Time.time; // Update the last shoot time
+                lastShootTime = Time.time;
             }
         }
 
-        // Visualize trajectory when holding right mouse button (only for the sniper)
-        if (currentWeapon.weaponName == "Sniper") // Replace "Sniper" with the exact name of your sniper weapon
+        // Right-Click: Sniper Trajectory OR SMG Grenade
+        if (Input.GetMouseButtonDown(1)) // Right-click pressed
         {
-            if (Input.GetMouseButton(1)) // 1 = right mouse button
+            if (currentWeapon.weaponName == "Sniper")
             {
                 trajectoryVisualizer.Initialize(bulletSpawnPoint, currentWeapon);
                 trajectoryVisualizer.DrawRicochetTrajectory();
             }
-            else
+            else if (currentWeapon.weaponName == "SMG" && grenadeThrower != null)
             {
-                // Stop drawing the trajectory when right mouse button is released
-                trajectoryVisualizer.StopDrawingTrajectory();
+                grenadeThrower.TryThrowGrenade(); // Throw grenade
             }
         }
+
+        // Stop trajectory when right-click is released (sniper only)
+        if (Input.GetMouseButtonUp(1) && currentWeapon.weaponName == "Sniper")
+        {
+            trajectoryVisualizer.StopDrawingTrajectory();
+        }
     }
+
 
     private void StartFiring()
     {
