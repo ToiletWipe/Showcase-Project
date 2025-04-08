@@ -13634,7 +13634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grenadePrefab: {fileID: 6371148191558272657, guid: 9bd82431e9f219f4da71e7787610b95c, type: 3}
-  throwForce: 85
+  throwForce: 50
   explosionDelay: 1
   explosionRadius: 6
   explosionForce: 300
