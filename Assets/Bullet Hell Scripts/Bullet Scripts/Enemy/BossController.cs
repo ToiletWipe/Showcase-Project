@@ -22,6 +22,7 @@ public class BossController : MonoBehaviour
 
     [Header("Player & Detection")]
     public Transform player;  // The player's position
+    [SerializeField] private float detectionRange = 10f; // Range within which the turret detects the player
     public float attackDistance = 10f;  // Distance at which the boss will start attacking
     public float detectionDelay = 2f;   // Delay after player is detected before attacking
     public float playerLostDelay = 2f;  // Delay after player is lost before returning to idle/patrol
@@ -54,10 +55,39 @@ public class BossController : MonoBehaviour
     {
         currentState = BossState.Idle;
         bulletSpawner = GetComponent<BulletSpawnerTuesday>();  // Assuming the BulletSpawner is on the same GameObject
+                                                               // Find the player by tag (make sure your player GameObject is tagged as "Player")
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        if (player == null)
+        {
+            Debug.LogError("Player not found! Make sure the player is tagged as 'Player'.");
+        }
     }
 
     void Update()
     {
+        // ----- Detection Based on Distance -----
+        if (player == null) return;
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (distance <= detectionRange)
+        {
+            if (!isPlayerInRange)
+            {
+                isPlayerInRange = true;
+                Debug.Log("Player entered detection zone.");
+            }
+            // Rotate the enemy to face the player.
+            RotateTowardsPlayer();
+        }
+        else
+        {
+            if (isPlayerInRange)
+            {
+                isPlayerInRange = false;
+                Debug.Log("Player exited detection zone.");
+            }
+        }
+
         // === Face the Player Only When in Range ===
         if (isPlayerInRange && player != null)
         {
@@ -330,37 +360,49 @@ public class BossController : MonoBehaviour
         currentState = newState;
     }
 
-
-    void OnTriggerEnter(Collider other)
+    private void RotateTowardsPlayer()
     {
-        if (other.CompareTag("Player"))
-        {
-            // Increase the counter.
-            playerColliderCount++;
+        // Calculate the direction to the player
+        Vector3 direction = (player.position - transform.position).normalized;
 
-            // Only log once when the player first enters.
-            if (playerColliderCount == 1)
-            {
-                isPlayerInRange = true;
-                Debug.Log("Player entered detection zone.");
-            }
-        }
+        // Calculate the rotation to look at the player
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+        // Smoothly rotate towards the player
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            // Decrease the counter.
-            playerColliderCount--;
 
-            // If there are no more colliders overlapping, the player has truly exited.
-            if (playerColliderCount <= 0)
-            {
-                playerColliderCount = 0;  // Ensure it doesn't drop below zero.
-                isPlayerInRange = false;
-                Debug.Log("Player exited detection zone.");
-            }
-        }
-    }
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        // Increase the counter.
+    //        playerColliderCount++;
+
+    //        // Only log once when the player first enters.
+    //        if (playerColliderCount == 1)
+    //        {
+    //            isPlayerInRange = true;
+    //            Debug.Log("Player entered detection zone.");
+    //        }
+    //    }
+    //}
+
+    //void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        // Decrease the counter.
+    //        playerColliderCount--;
+
+    //        // If there are no more colliders overlapping, the player has truly exited.
+    //        if (playerColliderCount <= 0)
+    //        {
+    //            playerColliderCount = 0;  // Ensure it doesn't drop below zero.
+    //            isPlayerInRange = false;
+    //            Debug.Log("Player exited detection zone.");
+    //        }
+    //    }
+    //}
 }

@@ -161,9 +161,25 @@ public class HitscanShootingV2 : MonoBehaviour
 
         // Apply damage if the object has a Health component
         Health health = collider.GetComponent<Health>();
-        if (health != null)
+        // Only apply damage if the collider is tagged as "Enemy" 
+        // and the Health component is on the same GameObject (i.e. the main collider), not on a child detection collider.
+        if (collider.CompareTag("Enemy") && health != null)
         {
-            health.TakeDamage(damage);
+            // This check assumes that the main enemy collider's GameObject has the Health component.
+            if (collider.gameObject == health.gameObject)
+            {
+                health.TakeDamage(damage);
+                Debug.Log("Hit " + collider.name + " for " + damage + " damage!");
+            }
+        }
+        else
+        {
+            // For any other objects (or enemies whose colliders are on the main object), apply damage if Health is found.
+            if (health != null)
+            {
+                health.TakeDamage(damage);
+                Debug.Log("Hit " + collider.name + " for " + damage + " damage!");
+            }
         }
     }
 
