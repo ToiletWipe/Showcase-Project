@@ -153,10 +153,15 @@ public class HitscanShootingV2 : MonoBehaviour
 
     private void ApplyForceToObject(Collider collider, Vector3 direction, float bulletForce, float damage)
     {
-        Rigidbody rb = collider.GetComponent<Rigidbody>();
-        if (rb != null)
+        // If the collider is NOT tagged as "Enemy", add force.
+        if (!collider.CompareTag("Enemy"))
         {
-            rb.AddForce(direction * bulletForce, ForceMode.Impulse);
+            Rigidbody rb = collider.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(direction * bulletForce, ForceMode.Impulse);
+                Debug.Log("Applied force to: " + collider.name);
+            }
         }
 
         // Apply damage if the object has a Health component

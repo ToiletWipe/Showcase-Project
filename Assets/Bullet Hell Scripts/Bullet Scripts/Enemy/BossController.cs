@@ -34,6 +34,10 @@ public class BossController : MonoBehaviour
     public bool canPatrol = false;      // Whether the boss can patrol when in idle state
     [Tooltip("Speed at which the boss rotates to face the player.")]
     public float rotationSpeed = 5f;
+    [Tooltip("If enabled, the boss will move toward the player until within attackDistance.")]
+    public bool moveTowardsPlayer = false;
+    [Tooltip("Movement speed when moving toward the player.")]
+    public float movementSpeed = 3f;
 
     private float stateTimer;           // Timer to track delays for detection and lost state
     private BulletSpawnerTuesday bulletSpawner;  // Reference to the bullet spawner
@@ -50,6 +54,7 @@ public class BossController : MonoBehaviour
     private float lostTimer;
     private int playerColliderCount = 0;
 
+    private Rigidbody rb;
 
     void Start()
     {
@@ -62,12 +67,18 @@ public class BossController : MonoBehaviour
         {
             Debug.LogError("Player not found! Make sure the player is tagged as 'Player'.");
         }
+
+        rb = GetComponent<Rigidbody>();
+        if (rb == null)
+            Debug.LogError("No Rigidbody found on BossController GameObject!");
+
     }
 
     void Update()
     {
-        // ----- Detection Based on Distance -----
         if (player == null) return;
+
+        // ----- Detection Based on Distance -----
         float distance = Vector3.Distance(transform.position, player.position);
         if (distance <= detectionRange)
         {
@@ -76,8 +87,18 @@ public class BossController : MonoBehaviour
                 isPlayerInRange = true;
                 Debug.Log("Player entered detection zone.");
             }
+
             // Rotate the enemy to face the player.
             RotateTowardsPlayer();
+
+            // If moveTowardsPlayer is enabled and the player is beyond attackDistance,
+            // move toward the player (only on the horizontal plane).
+            if (moveTowardsPlayer && distance > attackDistance)
+            {
+                Vector3 targetPosition = new Vector3(player.position.x, transform.position.y, player.position.z);
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
+                Debug.Log("Moving towards player.");
+            }
         }
         else
         {
@@ -88,17 +109,14 @@ public class BossController : MonoBehaviour
             }
         }
 
-        // === Face the Player Only When in Range ===
-        if (isPlayerInRange && player != null)
+        // ---- Attack Decision Based on Attack Distance ----
+        // Only if the player is within the attackDistance do we allow the state machine to transition to an attack state.
+        if (isPlayerInRange && distance > attackDistance)
         {
-            Vector3 direction = player.position - transform.position;
-            direction.y = 0; // Rotate only horizontally.
-            if (direction.sqrMagnitude > 0.001f)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            }
+            // Optionally, if the player is detected but not close enough, you might choose to remain in a "detected" state.
+            // For this example, we simply do nothing extra here.
         }
+
         // If the player is not in range, do nothing (thus preserving the current rotation).
 
         // === Update Lost Timer ===
@@ -157,6 +175,53 @@ public class BossController : MonoBehaviour
         }
     }
 
+    // ----- FixedUpdate: Override Horizontal Velocity -----
+    // This is where we "lock" the enemy's horizontal velocity to our desired movement
+    // so that external forces (like bullet impulses) are ignored.
+    void FixedUpdate()
+    {
+        if (player == null) return;
+
+        // If moveTowardsPlayer is enabled:
+        if (moveTowardsPlayer && isPlayerInRange)
+        {
+            float distance = Vector3.Distance(transform.position, player.position);
+            // Only move toward the player if we're farther than attackDistance.
+            if (distance > attackDistance)
+            {
+                // Compute the target horizontal position.
+                Vector3 targetPosition = new Vector3(player.position.x, transform.position.y, player.position.z);
+                // Calculate direction from the enemy to the target.
+                Vector3 direction = (targetPosition - transform.position).normalized;
+                // Compute desired horizontal velocity.
+                Vector3 desiredHorizontalVelocity = direction * movementSpeed;
+                // Override the rigidbody's horizontal velocity while preserving vertical velocity.
+                rb.linearVelocity = new Vector3(desiredHorizontalVelocity.x, rb.linearVelocity.y, desiredHorizontalVelocity.z);
+            }
+            else
+            {
+                // If within attackDistance, zero out horizontal velocity.
+                rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+            }
+        }
+        else
+        {
+            // If not moving toward the player, you may opt to zero horizontal velocity to ignore external forces.
+            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+        }
+    }
+
+    void RotateTowardsPlayer()
+    {
+        Vector3 direction = (player.position - transform.position).normalized;
+        direction.y = 0;  // Only rotate horizontally.
+        if (direction.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+    }
+
     void HandleIdleState()
     {
         // Idle logic, could include animation, waiting, etc.
@@ -180,6 +245,15 @@ public class BossController : MonoBehaviour
 
     void HandlePlayerDetectedState()
     {
+        // Only choose an attack state if the player is within the closer attack distance.
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (distance > attackDistance)
+        {
+            // Remain in detected state until the player comes close enough.
+            stateTimer = detectionDelay;
+            return;
+        }
+
         stateTimer -= Time.deltaTime;
         if (stateTimer <= 0f)
         {
@@ -359,50 +433,4 @@ public class BossController : MonoBehaviour
     {
         currentState = newState;
     }
-
-    private void RotateTowardsPlayer()
-    {
-        // Calculate the direction to the player
-        Vector3 direction = (player.position - transform.position).normalized;
-
-        // Calculate the rotation to look at the player
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-
-        // Smoothly rotate towards the player
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-    }
-
-
-    //void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.CompareTag("Player"))
-    //    {
-    //        // Increase the counter.
-    //        playerColliderCount++;
-
-    //        // Only log once when the player first enters.
-    //        if (playerColliderCount == 1)
-    //        {
-    //            isPlayerInRange = true;
-    //            Debug.Log("Player entered detection zone.");
-    //        }
-    //    }
-    //}
-
-    //void OnTriggerExit(Collider other)
-    //{
-    //    if (other.CompareTag("Player"))
-    //    {
-    //        // Decrease the counter.
-    //        playerColliderCount--;
-
-    //        // If there are no more colliders overlapping, the player has truly exited.
-    //        if (playerColliderCount <= 0)
-    //        {
-    //            playerColliderCount = 0;  // Ensure it doesn't drop below zero.
-    //            isPlayerInRange = false;
-    //            Debug.Log("Player exited detection zone.");
-    //        }
-    //    }
-    //}
 }

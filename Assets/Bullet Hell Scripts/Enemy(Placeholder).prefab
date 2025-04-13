@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 3037907674633101048}
   - component: {fileID: 8828305989641901611}
   - component: {fileID: 2147107946297263506}
-  - component: {fileID: 8693865243326103313}
   m_Layer: 0
   m_Name: Enemy(Placeholder)
   m_TagString: Enemy
@@ -273,6 +272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   player: {fileID: 0}
+  detectionRange: 10
   attackDistance: 10
   detectionDelay: 2
   playerLostDelay: 2
@@ -322,27 +322,6 @@ MonoBehaviour:
   isFiringPattern1: 0
   isFiringPattern2: 0
   isFiringPattern3: 0
---- !u!65 &8693865243326103313
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3751114716643521283}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 4, y: 3, z: 7}
-  m_Center: {x: 0, y: 0.52, z: 4}
 --- !u!1 &5264708697551876207
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,8 +531,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6181953152735439342}
-  - component: {fileID: 3704198405249627410}
-  - component: {fileID: 7646868433435823975}
   - component: {fileID: 5177630712591228479}
   m_Layer: 0
   m_Name: Detection Zone
@@ -577,36 +554,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5957907685738712291}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3704198405249627410
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8555277760888416621}
-  m_Mesh: {fileID: 0}
---- !u!64 &7646868433435823975
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8555277760888416621}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!114 &5177630712591228479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -619,8 +566,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad442fb36010df747a0204a2b8bdaee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 5
-  coneAngle: 45
   lightColor: {r: 0.9245283, g: 0.7510021, b: 0.3794055, a: 1}
   lightIntensity: 2
   lightSpotAngle: 180
