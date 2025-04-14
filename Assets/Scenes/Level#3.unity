@@ -18231,6 +18231,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2147107946297263506, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
+      propertyPath: bulletPatterns2.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2147107946297263506, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
       propertyPath: bulletPatterns1.Array.data[0].bulletPattern
       value: 
       objectReference: {fileID: 11400000, guid: 949fad6f1cb2b0c4f9f5173cf849c6bd, type: 2}
@@ -18238,6 +18242,30 @@ PrefabInstance:
       propertyPath: bulletPatterns2.Array.data[0].bulletPattern
       value: 
       objectReference: {fileID: 11400000, guid: 949fad6f1cb2b0c4f9f5173cf849c6bd, type: 2}
+    - target: {fileID: 2147107946297263506, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
+      propertyPath: bulletPatterns2.Array.data[1].bulletPattern
+      value: 
+      objectReference: {fileID: 11400000, guid: fa5774d16f7f5324096efef423cf772b, type: 2}
+    - target: {fileID: 2147107946297263506, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
+      propertyPath: bulletPatterns2.Array.data[1].cooldownTimer
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2147107946297263506, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
+      propertyPath: bulletPatterns2.Array.data[1].attackCooldown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2147107946297263506, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
+      propertyPath: bulletPatterns2.Array.data[1].attackDuration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2147107946297263506, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
+      propertyPath: bulletPatterns2.Array.data[1].timeBetweenFires
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2147107946297263506, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
+      propertyPath: bulletPatterns2.Array.data[1].numberOfTimesToFire
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 3751114716643521283, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
       propertyPath: m_Name
       value: Enemy(Placeholder)
@@ -18324,7 +18352,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8828305989641901611, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
       propertyPath: attackDistance
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8828305989641901611, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
       propertyPath: detectionRange
@@ -18332,7 +18360,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8828305989641901611, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
       propertyPath: moveTowardsPlayer
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
