@@ -17964,7 +17964,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 63805030f9aa89f43b54f0af9618ba0c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19669,15 +19669,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5957907685738712291, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -113.126
+      value: -105.7
       objectReference: {fileID: 0}
     - target: {fileID: 5957907685738712291, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.47
+      value: 7.22
       objectReference: {fileID: 0}
     - target: {fileID: 5957907685738712291, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.83
+      value: -0.56
       objectReference: {fileID: 0}
     - target: {fileID: 5957907685738712291, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -19712,8 +19712,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8828305989641901611, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
+      propertyPath: movementSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828305989641901611, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
       propertyPath: attackDistance
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8828305989641901611, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
       propertyPath: detectionDelay
@@ -19722,6 +19726,10 @@ PrefabInstance:
     - target: {fileID: 8828305989641901611, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
       propertyPath: detectionRange
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828305989641901611, guid: 3e16bacbc5c07844d88c008718ad0cd7, type: 3}
+      propertyPath: moveTowardsPlayer
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
