@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: Level 2 Burst
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 1365582710061636328, guid: 2eae8da2b6dbd1a44b61182a87c186f9, type: 3}
-  bulletSpeed: 3
-  acceleration: 0
+  bulletSpeed: 2
+  acceleration: 1
   bulletLifespan: 5
   objectWidth: 0.5
   objectHeight: 0.5
   objectDepth: 0.5
   xOffset: 0
-  yOffset: 4.9
+  yOffset: 1.72
   zOffset: 0
-  moveToPlayer: 1
-  fireYaw: 37
+  moveToPlayer: 0
+  fireYaw: 351
   firePitch: 120
   fireRoll: 31
   fireOffsetDistance: 1
@@ -31,11 +31,11 @@ MonoBehaviour:
   individualArraySpread: 30
   totalBulletArrays: 1
   totalArraySpread: 90
-  enableSpin: 0
-  currentSpinSpeed: 0
-  spinSpeedChangeRate: 0
-  maxSpinSpeed: 180
-  spinReversal: 0
+  enableSpin: 1
+  currentSpinSpeed: 35
+  spinSpeedChangeRate: 5
+  maxSpinSpeed: 60
+  spinReversal: 1
   sineAmplitude: 5
   sineFrequency: -10
   enableSineWave: 0
