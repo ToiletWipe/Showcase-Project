@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
@@ -54,6 +55,15 @@ public class Health : MonoBehaviour
     private void Die()
     {
         Debug.Log(gameObject.name + " has died.");
-        Destroy(gameObject); // Destroy the object
+
+        if (CompareTag("Player"))
+        {
+            // Reload the current scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy non-player objects
+        }
     }
 }

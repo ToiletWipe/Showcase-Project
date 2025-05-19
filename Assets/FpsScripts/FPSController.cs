@@ -94,4 +94,9 @@ public class FPSController : MonoBehaviour
         isInverted = !isInverted; // Toggle the inversion state
         Debug.Log("Inverted Controls: " + isInverted);
     }
+
+    public void SetCameraActive(bool active)
+    {
+        canMove = active;
+    }
 }
